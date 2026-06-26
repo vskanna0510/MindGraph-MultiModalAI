@@ -1,0 +1,96 @@
+# MindGraph++ Feature Store (MP2 Part 6)
+
+feature_store:
+  version: "1.0.0"
+  dataset_version: "v1"
+  feature_versions:
+    audio: "v1.0"
+    visual: "v1.0"
+    text: "v1.0"
+    image: "v1.0"
+    graph: "v1.0"
+  extraction_versions:
+    audio: "1.0.0"
+    visual: "1.0.0"
+    text: "1.0.0"
+  model_versions:
+    audio: "wav2vec2-base"
+    visual: "vit-base"
+    text: "indic-bert"
+
+modalities:
+  enabled: [audio, visual, text, image, graph, metadata, clinical]
+  required: []
+  optional: [audio, visual, text, image, graph]
+
+paths:
+  root: datasets/processed/feature_store
+  index_file: feature_index.parquet
+  registry_file: feature_registry.json
+  metadata_file: sessions.parquet
+
+storage:
+  default_format: numpy
+  supported: [parquet, arrow, numpy, torch, hdf5, zarr]
+  lazy_loading: true
+  memory_map: true
+
+normalization:
+  audio: zscore
+  visual: zscore
+  text: l2
+  image: zscore
+  graph: zscore
+  fit_on: train
+
+quality:
+  excellent_threshold: 0.85
+  good_threshold: 0.70
+  acceptable_threshold: 0.50
+  reject_threshold: 0.30
+
+outliers:
+  method: zscore  # isolation_forest | lof | zscore
+  zscore_threshold: 3.0
+
+synchronization:
+  min_score: 0.5
+
+sampling:
+  strategy: random  # weighted | balanced | stratified | curriculum | distributed
+  seed: 42
+
+balancing:
+  strategy: weighted_sampler  # oversample | undersample | smote
+  compute_distribution: true
+
+augmentation:
+  train: true
+  validation: false
+  test: false
+
+cache:
+  root: datasets/cache/feature_store
+  invalidate_on_config_change: true
+  target_hit_rate: 0.95
+
+export:
+  formats: [parquet, json, numpy, torch]
+  targets: [training, evaluation, deployment, research]
+
+reproducibility:
+  record_git_commit: true
+  record_config_hash: true
+  record_pipeline_version: true
+
+performance:
+  target_ms_per_sample: 100
+  mixed_precision: true
+  streaming: true
+
+source_paths:
+  dataset_index: datasets/metadata/dataset_index.csv
+  audio_features: datasets/processed/audio_features
+  visual_features: datasets/processed/visual
+  text_features: datasets/processed/text
+  transcripts: datasets/processed/transcripts

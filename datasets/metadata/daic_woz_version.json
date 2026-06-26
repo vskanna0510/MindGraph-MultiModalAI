@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "processing_version": "1.0.0",
+  "creation_date": "2026-06-26T12:01:54.174710+00:00",
+  "dataset_source": "daic_woz",
+  "dataset_hash": "dd58d1427bdf767b91e85cbffc3747c5a7aa034c78ab689875e0d7cc3a930629",
+  "git_commit": "e0c537ec4dfb6c4f387b0a1962e98f63142f6cd7",
+  "validation_status": "pending",
+  "modification_history": []
+}

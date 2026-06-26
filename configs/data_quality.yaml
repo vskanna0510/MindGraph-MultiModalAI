@@ -1,0 +1,61 @@
+# MindGraph++ Data Quality Engine (MP2 Part 7)
+
+data_quality:
+  version: "1.0.0"
+  pipeline_version: "1.0.0"
+  dataset_version: "v1"
+  fail_on_leakage: true
+  fail_on_integrity_error: true
+  auto_reject_quality_below: 0.30
+
+gates:
+  integrity: true
+  metadata: true
+  quality: true
+  features: true
+  embeddings: true
+  statistics: true
+  leakage: true
+  export: true
+
+integrity:
+  min_file_size_bytes: 1
+  checksum_algorithm: sha256
+  allowed_extensions:
+    audio: [".wav", ".mp3", ".flac", ".npy"]
+    video: [".mp4", ".avi", ".npy"]
+    transcript: [".csv", ".txt", ".json"]
+    numpy: [".npy", ".npz"]
+
+quality:
+  excellent_threshold: 0.85
+  good_threshold: 0.70
+  acceptable_threshold: 0.50
+  reject_threshold: 0.30
+
+outliers:
+  methods: [zscore, isolation_forest]
+  zscore_threshold: 3.0
+
+leakage:
+  check_split_overlap: true
+  check_duplicate_embeddings: true
+  check_duplicate_sessions: true
+
+sampling:
+  imbalance_warning_ratio: 0.15
+
+paths:
+  reports_root: datasets/reports/data_quality
+  audit_log: datasets/reports/data_quality/audit_log.jsonl
+  passport_file: datasets/reports/data_quality/dataset_passport.json
+  figures_dir: datasets/reports/data_quality/figures
+
+reproducibility:
+  record_git_commit: true
+  record_config_hash: true
+  random_seed: 42
+
+ci:
+  machine_report: datasets/reports/data_quality/ci_validation_report.json
+  block_on_failure: true

@@ -1,0 +1,25 @@
+# Dataset validation configuration
+
+validation:
+  checksum_algorithm: sha256
+  min_file_size_bytes: 1
+  allowed_extensions:
+    audio: [.wav, .mp3, .flac]
+    video: [.mp4, .avi, .mov, .mkv]
+    text: [.txt, .csv, .json, .transcript]
+    image: [.jpg, .jpeg, .png]
+    labels: [.csv, .json, .tsv]
+    numpy: [.npy, .npz]
+
+  audio:
+    expected_sample_rates: [16000, 44100, 48000]
+    min_duration_seconds: 0.5
+    max_duration_seconds: 3600
+
+  video:
+    min_frame_count: 1
+    min_fps: 1
+
+  report:
+    output_dir: datasets/validation
+    formats: [json, markdown]

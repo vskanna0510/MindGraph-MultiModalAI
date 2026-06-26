@@ -1,0 +1,62 @@
+# MindGraph++ Evaluation Pipeline (MP3 Part 6)
+
+evaluation:
+  seed: 42
+  threshold: 0.5
+  bootstrap_samples: 1000
+  confidence_level: 0.95
+  figure_dpi: 300
+  figure_formats: [png, svg]
+
+metrics:
+  classification:
+    - accuracy
+    - balanced_accuracy
+    - precision
+    - recall
+    - f1
+    - weighted_f1
+    - macro_f1
+    - micro_f1
+    - roc_auc
+    - pr_auc
+    - mcc
+    - cohen_kappa
+    - log_loss
+    - brier_score
+  regression:
+    - mae
+    - mse
+    - rmse
+    - r2
+  calibration:
+    - ece
+    - mce
+
+ablation:
+  variants:
+    - baseline
+    - audio_only
+    - visual_only
+    - text_only
+    - image_only
+    - audio_text
+    - audio_visual
+    - visual_text
+    - three_modalities
+    - four_modalities
+    - without_graph
+    - with_graph
+    - without_temporal
+    - with_temporal
+    - full_architecture
+
+reports:
+  output_dir: reports/evaluation
+  formats: [markdown, json]
+  include_checklist: true
+
+publication:
+  dpi: 300
+  formats: [png, svg, pdf]
+  font_size: 10

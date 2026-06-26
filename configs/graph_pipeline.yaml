@@ -1,0 +1,53 @@
+# MindGraph++ Graph Pipeline (MP3 Part 4)
+
+graph_pipeline:
+  version: "1.0.0"
+  kg_dim: 64
+  node_feature_dim: 128
+  edge_feature_dim: 16
+  default_gnn: graphsage
+
+storage:
+  backend: memory  # memory | neo4j
+  cache_dir: datasets/processed/graph_cache
+  snapshots_dir: datasets/processed/graph_snapshots
+
+neo4j:
+  uri: bolt://localhost:7687
+  user: neo4j
+  password: mindgraph
+  database: neo4j
+
+builders:
+  temporal_linking: true
+  version_nodes: true
+  clinical_enabled: false
+  research_enabled: true
+
+gnn:
+  architecture: graphsage
+  hidden_dim: 256
+  num_layers: 2
+  dropout: 0.1
+  heads: 4
+
+embeddings:
+  algorithm: node2vec
+  dimensions: 64
+  walk_length: 10
+  num_walks: 20
+
+temporal:
+  max_history_sessions: 12
+  encoding: multi_scale  # minutes | days | multi_scale
+
+validation:
+  check_disconnected: true
+  check_duplicates: true
+  check_temporal_chain: true
+
+export:
+  formats: [json, csv, graphml, pytorch_geometric]
+
+benchmark:
+  architectures: [graphsage, gcn, gat, gatv2, tgcn, dynamic_graphsage]

@@ -1,0 +1,74 @@
+# MindGraph++ Video Preprocessing Pipeline (MP2 Part 4)
+
+pipeline:
+  version: "1.0.0"
+  feature_version: "v1"
+  deterministic: true
+  seed: 42
+
+video:
+  target_fps: 1
+  supported_fps: [1, 2, 5, 10, 15, 24, 25, 30]
+  target_width: 256
+  target_height: 256
+  max_frames: 300
+  formats: [mp4, avi, mov, mkv, webm]
+  frame_format: png  # png | jpeg
+
+sampling:
+  strategy: target_fps  # all | target_fps | adaptive | scene | motion
+  adaptive_motion_threshold: 0.02
+
+face_detection:
+  primary: mediapipe  # mediapipe | retinaface | yolo
+  min_confidence: 0.6
+
+mediapipe:
+  landmarks: 468
+  refine_landmarks: true
+
+tracking:
+  max_gap_frames: 5
+  iou_threshold: 0.3
+
+features:
+  extract_pose: true
+  extract_gaze: true
+  extract_blink: true
+  extract_symmetry: true
+
+embeddings:
+  primary: google/vit-base-patch16-224
+  model_version: "1.0"
+  batch_size: 8
+  device: auto
+  cache_subdir: vit
+
+normalization:
+  landmark_method: zscore
+  embedding_method: zscore
+  color_space: rgb
+
+augmentation:
+  enabled: false
+  horizontal_flip_prob: 0.0
+  brightness_prob: 0.0
+  contrast_prob: 0.0
+
+cache:
+  root: datasets/cache
+  invalidate_on_config_change: true
+
+multiprocessing:
+  enabled: true
+  max_workers: 0
+
+quality:
+  min_overall_score: 0.4
+  min_face_visibility: 0.5
+  max_blur_score: 0.8
+
+paths:
+  processed_root: datasets/processed/visual
+  reports_root: datasets/reports/video
+  metadata_file: video_metadata.parquet

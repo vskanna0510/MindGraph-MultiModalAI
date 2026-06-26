@@ -1,0 +1,67 @@
+# MindGraph++ Training Pipeline (MP3 Part 5)
+
+training:
+  seed: 42
+  batch_size: 16
+  num_workers: 0
+  max_epochs: 100
+  early_stopping_patience: 10
+  gradient_clip_val: 1.0
+  gradient_accumulation_steps: 1
+  mixed_precision: true
+  stage: end_to_end  # encoder_warmup | fusion | temporal | graph | end_to_end
+
+loss:
+  classification: cross_entropy
+  regression: huber
+  label_smoothing: 0.05
+  focal_gamma: 2.0
+  class_weights: auto
+  weights:
+    classification: 1.0
+    regression: 0.3
+    confidence: 0.1
+    temporal: 0.2
+    graph: 0.2
+    consistency: 0.1
+    regularization: 0.01
+
+optimization:
+  optimizer: adamw
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  scheduler: cosine
+  warmup_epochs: 5
+  min_lr: 1.0e-6
+
+checkpoint:
+  directory: ml_pipeline/weights
+  save_top_k: 3
+  monitor: val_f1
+  mode: max
+  best_loss: true
+  best_f1: true
+  best_auc: true
+  latest: true
+  every_n_epochs: 5
+
+cross_validation:
+  enabled: false
+  protocol: kfold  # kfold | loso | official
+  folds: 5
+
+hpo:
+  enabled: false
+  trials: 20
+  metric: val_f1
+
+logging:
+  backend: csv  # csv | tensorboard | mlflow
+  log_dir: ml_pipeline/experiments/logs
+
+stages:
+  encoder_warmup_epochs: 5
+  fusion_epochs: 10
+  temporal_epochs: 10
+  graph_epochs: 10
+  finetune_epochs: 20

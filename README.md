@@ -232,6 +232,6 @@ Apache License 2.0 — see [LICENSE](LICENSE).
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), [SECURITY.md](SECURITY.md), and **[docs/ENGINEERING_CONSTITUTION.md](docs/ENGINEERING_CONSTITUTION.md)** (governing document).
 
 Development standards: [docs/development_standards.md](docs/development_standards.md).

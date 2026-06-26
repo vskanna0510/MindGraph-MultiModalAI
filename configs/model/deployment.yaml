@@ -1,0 +1,4 @@
+formats: [pytorch, torchscript, onnx, tflite]
+onnx_opset: 17
+quantize: false
+edge_runtime: false

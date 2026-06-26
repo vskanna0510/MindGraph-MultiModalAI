@@ -1,0 +1,19 @@
+# Text / transcript processing configuration
+
+text:
+  max_sequence_length: 512
+  lowercase: false
+  remove_pii_patterns: true
+  language_detection: true
+
+embeddings:
+  primary: xlm-roberta-base
+  cache_subdir: bert
+  multilingual:
+    - indicbert
+    - mbert
+
+output:
+  processed_subdir: text_embeddings
+  naming_pattern: "{participant_id}_text_v{version}.npy"
+  version: 1

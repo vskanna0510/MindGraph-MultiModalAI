@@ -1,0 +1,110 @@
+"""Node type schemas for the temporal knowledge graph."""
+
+from __future__ import annotations
+
+NODE_LABELS = (
+    "User",
+    "Session",
+    "Assessment",
+    "Prediction",
+    "RiskScore",
+    "AudioFeature",
+    "VisualFeature",
+    "TextFeature",
+    "ImageFeature",
+    "Embedding",
+    "Emotion",
+    "Symptom",
+    "Behavior",
+    "Language",
+    "Intervention",
+    "Recommendation",
+    "Device",
+    "Location",
+    "ModelVersion",
+    "Dataset",
+    "Clinician",
+    "ResearchStudy",
+)
+
+EMOTIONS = (
+    "Joy",
+    "Sadness",
+    "Fear",
+    "Anger",
+    "Disgust",
+    "Surprise",
+    "Neutral",
+    "Hopelessness",
+    "Stress",
+    "Loneliness",
+)
+
+SYMPTOMS = (
+    "Low Mood",
+    "Reduced Energy",
+    "Sleep Disturbance",
+    "Social Withdrawal",
+    "Loss of Interest",
+    "Negative Affect",
+    "Anxiety Indicators",
+)
+
+INTERVENTIONS = (
+    "Breathing Exercise",
+    "Journaling",
+    "Counseling Suggestion",
+    "Professional Referral",
+    "Emergency Helpline",
+    "Sleep Hygiene",
+    "Exercise Recommendation",
+    "Mindfulness",
+)
+
+NODE_SCHEMAS: dict[str, list[str]] = {
+    "User": [
+        "user_id",
+        "created_at",
+        "language",
+        "timezone",
+        "age_group",
+        "gender",
+        "consent_status",
+        "privacy_level",
+        "edge_enabled",
+        "cloud_enabled",
+    ],
+    "Session": [
+        "session_id",
+        "timestamp",
+        "duration",
+        "language",
+        "quality_score",
+        "device",
+        "location",
+        "processing_version",
+        "dataset",
+    ],
+    "Prediction": [
+        "prediction_id",
+        "risk_score",
+        "confidence",
+        "prediction_label",
+        "probability",
+        "model_version",
+        "inference_time",
+        "created_at",
+    ],
+    "AudioFeature": ["feature_id", "feature_version", "embedding_reference", "quality_score", "model_used", "dimension", "checksum"],
+    "VisualFeature": ["feature_id", "feature_version", "embedding_reference", "quality_score", "model_used", "dimension", "checksum"],
+    "TextFeature": ["feature_id", "feature_version", "embedding_reference", "quality_score", "model_used", "dimension", "checksum"],
+    "ImageFeature": ["feature_id", "feature_version", "embedding_reference", "quality_score", "model_used", "dimension", "checksum"],
+    "Emotion": ["emotion", "probability", "confidence", "timestamp", "source_modality"],
+    "Symptom": ["symptom", "confidence", "source", "timestamp"],
+    "Intervention": ["intervention_type", "confidence", "timestamp", "source"],
+    "RiskScore": ["score", "confidence", "timestamp", "model_version"],
+    "Embedding": ["embedding_id", "dimension", "model_version", "checksum", "created_at"],
+    "ModelVersion": ["model_id", "version", "created_at"],
+    "Dataset": ["dataset_id", "name", "version"],
+    "ResearchStudy": ["study_id", "name", "version"],
+}

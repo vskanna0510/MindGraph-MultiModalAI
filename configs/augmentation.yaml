@@ -1,0 +1,13 @@
+# Dataset augmentation (training only — never applied to raw data)
+
+augmentation:
+  enabled: false
+  audio:
+    time_stretch: false
+    pitch_shift: false
+    add_noise: false
+  video:
+    horizontal_flip: false
+  text:
+  # No text augmentation for clinical research v1
+    enabled: false

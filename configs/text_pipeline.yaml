@@ -1,0 +1,64 @@
+# MindGraph++ Text Engineering Pipeline (MP2 Part 5)
+
+pipeline:
+  version: "1.0.0"
+  feature_version: "v1"
+  deterministic: true
+  seed: 42
+
+text:
+  max_sequence_length: 512
+  lowercase: false
+  remove_pii_patterns: true
+  preserve_negations: true
+
+languages:
+  supported: [en, ta, hi, tanglish, roman_ta, mixed]
+  future: [ml, kn, te, mr]
+
+tokenization:
+  method: wordpiece  # wordpiece | sentencepiece | bpe | whitespace | transformer
+  model: ai4bharat/indic-bert
+
+embeddings:
+  primary: ai4bharat/indic-bert
+  secondary: bert-base-multilingual-cased
+  experimental: [xlm-roberta-base, intfloat/multilingual-e5-base]
+  model_version: "1.0"
+  device: auto
+  cache_subdir: indicbert
+
+sentiment:
+  multilingual: true
+
+emotion:
+  labels: [joy, sadness, fear, anger, disgust, surprise, neutral, hopelessness, loneliness, anxiety, stress]
+
+keywords:
+  lexicon_dir: configs/lexicons
+  categories: [depression, anxiety, stress, sleep, isolation, loneliness, burnout, fatigue]
+
+augmentation:
+  enabled: false
+  synonym_prob: 0.0
+  back_translation_prob: 0.0
+
+quality:
+  min_overall_score: 0.4
+  min_language_confidence: 0.5
+
+cache:
+  root: datasets/cache
+  invalidate_on_config_change: true
+
+multiprocessing:
+  enabled: true
+  max_workers: 0
+
+export:
+  formats: [csv, json, parquet, numpy, pickle]
+
+paths:
+  processed_root: datasets/processed/text
+  reports_root: datasets/reports/text
+  metadata_file: text_metadata.parquet

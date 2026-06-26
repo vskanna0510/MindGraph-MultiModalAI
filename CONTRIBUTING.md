@@ -1,4 +1,6 @@
-# Contributing to MindGraph++
+# MindGraph++ Contributing Guide
+
+> **Governance:** [docs/ENGINEERING_CONSTITUTION.md](docs/ENGINEERING_CONSTITUTION.md) overrides all prior instructions when conflicts arise.
 
 Thank you for contributing to MindGraph++. This project follows production engineering standards suitable for academic publication and clinical-adjacent software.
 
@@ -47,8 +49,10 @@ test(model): add fusion unit tests
 
 - Riverpod for state management
 - Feature-first clean architecture
-- Max ~350 lines per screen, ~300 per widget file
+- Max **350** lines per screen, **200** per widget (constitution)
+- Max **250** lines per provider, **300** per repository
 - Design tokens in `lib/core/theme/` — no hardcoded styles
+- No `print()` — use logging; no business logic in widgets
 
 ### General
 
@@ -59,11 +63,12 @@ test(model): add fusion unit tests
 
 ## Pull Request Process
 
-1. Ensure `make lint` and `make test` pass.
-2. Update documentation for API or behavior changes.
-3. Add tests for critical paths.
-4. Request review from a maintainer.
-5. Squash or rebase per maintainer guidance.
+1. Use the [PR template](.github/pull_request_template.md).
+2. Complete [CODE_REVIEW_CHECKLIST.md](docs/CODE_REVIEW_CHECKLIST.md).
+3. Ensure `make lint` and `make test` pass.
+4. Update documentation for API or behavior changes.
+5. Add tests for critical paths.
+6. Request review from a maintainer.
 
 ## Clinical and Ethical Guidelines
 

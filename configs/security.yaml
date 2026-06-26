@@ -12,6 +12,7 @@ encryption:
 password:
   min_length: 12
   require_special_char: true
+  hashing_algorithm: argon2
 
 rate_limiting:
   auth_attempts_per_hour: 20

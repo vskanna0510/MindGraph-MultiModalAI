@@ -1,0 +1,15 @@
+{
+  "sample_count": 2,
+  "language_distribution": {
+    "en": 2
+  },
+  "avg_tokens": 1339.0,
+  "sentiment_distribution": {
+    "positive": 2
+  },
+  "emotion_distribution": {
+    "joy": 1,
+    "anger": 1
+  },
+  "avg_quality_score": 1.0
+}

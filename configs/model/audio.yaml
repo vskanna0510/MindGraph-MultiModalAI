@@ -1,0 +1,15 @@
+encoder: wav2vec2
+backbone: wav2vec2
+pretrained: facebook/wav2vec2-base
+input_dim: 768
+hidden_dim: 512
+latent_dim: 512
+num_layers: 2
+dropout: 0.1
+pooling: attention
+freeze_mode: partial
+max_seq_len: 4096
+mfcc_dim: 40
+prosody_dim: 32
+pitch_dim: 16
+quality_dim: 8

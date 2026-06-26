@@ -1,0 +1,63 @@
+# MindGraph++ Dataset Pipeline Configuration
+
+dataset:
+  name: mindgraph_datasets
+  version: "1.0.0"
+  processing_version: "1.0.0"
+  root: datasets
+  raw_dir: datasets/raw
+  processed_dir: datasets/processed
+  cache_dir: datasets/cache
+  metadata_dir: datasets/metadata
+  exports_dir: datasets/exports
+  logs_dir: datasets/logs
+  validation_dir: datasets/validation
+  splits_dir: datasets/splits
+
+adapters:
+  primary: daic_woz
+  secondary: dvlog
+  enabled:
+    - daic_woz
+    - dvlog
+
+labels:
+  classes:
+    - depression
+    - normal
+    - unknown
+    - excluded
+  # Integer mappings loaded from config — never hardcoded in code
+  mapping:
+    depression: 1
+    normal: 0
+    unknown: -1
+    excluded: -2
+
+languages:
+  supported:
+    - en
+    - ta
+    - hi
+    - mixed
+    - unknown
+
+multiprocessing:
+  enabled: true
+  max_workers: 0  # 0 = auto-detect CPU count
+  chunk_size: 8
+  retry_failed: true
+  max_retries: 2
+
+quality:
+  min_overall_score: 0.5
+  reject_below_threshold: false
+  log_rejected: true
+
+versioning:
+  track_git_commit: true
+  compute_hashes: true
+
+manifest:
+  filename: manifest.json
+  include_class_distribution: true

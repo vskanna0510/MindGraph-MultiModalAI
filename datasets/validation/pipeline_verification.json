@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-06-26T12:02:11.764564+00:00",
+  "passed": true,
+  "checks": [
+    {
+      "check": "dataset_index",
+      "passed": true
+    },
+    {
+      "check": "manifest",
+      "passed": true
+    },
+    {
+      "check": "statistics",
+      "passed": true
+    },
+    {
+      "check": "export_csv",
+      "passed": true
+    },
+    {
+      "check": "feature_coverage",
+      "passed": true,
+      "processed": 961,
+      "participants": 961
+    }
+  ],
+  "sample_count": 2294
+}

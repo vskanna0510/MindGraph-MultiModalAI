@@ -47,10 +47,22 @@ flutter:
 	cd flutter_app && flutter pub get && flutter run
 
 train:
-	$(PYTHON_BIN) -m ml_pipeline.training.train --config configs/training.yaml
+	$(PYTHON_BIN) -m ml_pipeline.training.train --config configs/training_pipeline.yaml
+
+train-dry-run:
+	$(PYTHON_BIN) -m ml_pipeline.training.train --dry-run
 
 graph:
-	@echo "Apply Neo4j migrations from graphs/migrations/ via Neo4j Browser or cypher-shell"
+	@echo "Apply Neo4j migrations: graphs/migrations/001_schema.cypher, 002_relationships.cypher"
+
+graph-build:
+	$(PYTHON_BIN) scripts/graph/build_graph.py --builder temporal
+
+graph-validate:
+	$(PYTHON_BIN) scripts/graph/validate_graph.py
+
+graph-benchmark:
+	$(PYTHON_BIN) -c "from ml_pipeline.graph.gnn.benchmark import benchmark_gnns; import json; print(json.dumps(benchmark_gnns(), indent=2))"
 
 docker:
 	docker compose -f deployment/docker/docker-compose.dev.yml up -d
@@ -105,8 +117,80 @@ deploy:
 research-init:
 	$(PYTHON_BIN) scripts/research/init_research_structure.py
 
+datasets-init:
+	$(PYTHON_BIN) scripts/datasets/init_structure.py
+
+datasets-pipeline:
+	$(PYTHON_BIN) scripts/datasets/run_pipeline.py --init-structure
+
+datasets-parser:
+	$(PYTHON_BIN) scripts/datasets/run_parser.py --datasets daic_woz dvlog
+
+audio-init:
+	$(PYTHON_BIN) scripts/audio/init_structure.py
+
+audio-pipeline:
+	$(PYTHON_BIN) scripts/audio/run_audio_pipeline.py --dataset daic_woz --limit 5
+
+video-init:
+	$(PYTHON_BIN) scripts/video/init_structure.py
+
+video-pipeline:
+	$(PYTHON_BIN) scripts/video/run_video_pipeline.py --dataset dvlog --limit 5
+
+text-init:
+	$(PYTHON_BIN) scripts/text/init_structure.py
+
+text-pipeline:
+	$(PYTHON_BIN) scripts/text/run_text_pipeline.py --dataset daic_woz --limit 5
+
+feature-store-init:
+	$(PYTHON_BIN) scripts/feature_store/init_structure.py
+
+feature-store-build:
+	$(PYTHON_BIN) scripts/feature_store/run_feature_store.py --init-structure --limit 20
+
+feature-store-index:
+	$(PYTHON_BIN) scripts/feature_store/build_index.py
+
+data-quality-init:
+	$(PYTHON_BIN) scripts/data_quality/init_structure.py
+
+data-quality-validate:
+	$(PYTHON_BIN) scripts/data_quality/run_validation.py --init-structure
+
+data-quality-ci:
+	$(PYTHON_BIN) scripts/data_quality/run_validation.py --ci
+
+models-init:
+	$(PYTHON_BIN) scripts/models/init_structure.py
+
+models-validate:
+	$(PYTHON_BIN) scripts/models/validate_model.py --init-structure --benchmark
+
+models-benchmark-encoders:
+	$(PYTHON_BIN) scripts/models/benchmark_encoders.py --modality all
+
+models-benchmark-fusion:
+	$(PYTHON_BIN) scripts/models/benchmark_fusion.py
+
+datasets-download-daic:
+	$(PYTHON_BIN) scripts/datasets/download_daic.py
+
+datasets-download-dvlog:
+	$(PYTHON_BIN) scripts/datasets/download_dvlog.py
+
 experiment:
 	$(PYTHON_BIN) scripts/research/run_experiment.py --config configs/ml/baseline.yaml --init-only
+
+evaluate:
+	$(PYTHON_BIN) -m ml_pipeline.evaluation.run_evaluation --split test
+
+evaluate-ablation:
+	$(PYTHON_BIN) -m ml_pipeline.evaluation.run_evaluation --split test --ablation
+
+evaluate-dry-run:
+	$(PYTHON_BIN) -m ml_pipeline.evaluation.run_evaluation --split test
 
 compare:
 	$(PYTHON_BIN) scripts/research/compare_experiments.py

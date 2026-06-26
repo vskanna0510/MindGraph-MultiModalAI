@@ -1,0 +1,3 @@
+# Workflow
+
+Stage in `VideoPipeline`.

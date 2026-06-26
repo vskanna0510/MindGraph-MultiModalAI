@@ -1,0 +1,21 @@
+# Video processing configuration
+
+video:
+  target_fps: 1
+  max_frames: 300
+  face_detection: mediapipe
+  min_face_confidence: 0.6
+
+features:
+  landmarks: 468
+  extract_pose: true
+  extract_blink_rate: true
+
+embeddings:
+  cache_subdir: mediapipe
+  frames_cache_subdir: frames
+
+output:
+  processed_subdir: visual_features
+  naming_pattern: "{participant_id}_visual_v{version}.npy"
+  version: 1

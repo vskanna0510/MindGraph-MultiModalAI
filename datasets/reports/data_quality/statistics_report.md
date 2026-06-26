@@ -1,0 +1,29 @@
+# Statistics Report
+## audio_length
+
+{'mean': 955.6962311827957, 'median': 912.1, 'variance': 72615.53258248139, 'std': 269.4726935748433, 'skewness': 1.0398155365813893, 'kurtosis': 1.5305751644191146, 'q25': 785.7, 'q75': 1054.825}
+
+## transcript_length
+
+{'mean': 54035850.317204304, 'median': 52139168.0, 'variance': 249236460757710.2, 'std': 15787224.605918236, 'skewness': 0.7997782295355429, 'kurtosis': 1.9228114758370554, 'q25': 44010431.75, 'q75': 60002300.75}
+
+## quality_score
+
+{'mean': 0.7999999999999999, 'median': 0.8, 'variance': 1.2392578409721975e-32, 'std': 1.1132195834480265e-16, 'skewness': 0.0, 'kurtosis': 0.0, 'q25': 0.8, 'q75': 0.8}
+
+## sync_score
+
+{'mean': 1.0, 'median': 1.0, 'variance': 0.0, 'std': 0.0, 'skewness': 0.0, 'kurtosis': 0.0, 'q25': 1.0, 'q75': 1.0}
+
+## class_distribution
+
+{'counts': {'normal': 99, 'unknown': 46, 'depression': 41}, 'imbalance_ratio': 0.41414141414141414, 'minority_pct': 0.22043010752688172, 'majority_pct': 0.532258064516129, 'recommended_sampling': 'random'}
+
+## participants
+
+{'count': 186, 'sessions': 186, 'avg_duration': 955.6962311827957, 'max_duration': 1966.2, 'min_duration': 414.8}
+
+## language_distribution
+
+{'en': 186}
+

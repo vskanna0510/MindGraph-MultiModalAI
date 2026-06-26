@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-06-26T12:02:07.174418+00:00",
+  "total_samples": 2294,
+  "participants": 961,
+  "by_dataset": {
+    "daic_woz": 372,
+    "dvlog": 1922
+  },
+  "by_modality": {
+    "audio": 1147,
+    "text": 186,
+    "visual": 961
+  },
+  "by_label": {
+    "unknown": 92,
+    "normal": 1010,
+    "depression": 1192
+  },
+  "by_language": {
+    "en": 2294
+  },
+  "by_split": {
+    "unassigned": 372,
+    "train": 1294,
+    "test": 424,
+    "dev": 204
+  }
+}

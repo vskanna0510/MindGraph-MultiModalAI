@@ -1,0 +1,14 @@
+# Image processing configuration (optional modality)
+
+image:
+  max_size_px: 512
+  face_crop: true
+  consent_required: true
+
+embeddings:
+  cache_subdir: images
+
+output:
+  processed_subdir: image_embeddings
+  naming_pattern: "{participant_id}_image_v{version}.npy"
+  version: 1

@@ -1,0 +1,22 @@
+# Feature cache configuration
+
+cache:
+  root: datasets/cache
+  version_tag: v1
+  ttl_days: 30
+  subdirs:
+    wav2vec: wav2vec
+    hubert: hubert
+    bert: bert
+    indicbert: indicbert
+    mediapipe: mediapipe
+    frames: frames
+    transcripts: transcripts
+    audio: audio
+    video: video
+    images: images
+
+  key_fields:
+    - file_hash
+    - extractor_version
+    - config_version

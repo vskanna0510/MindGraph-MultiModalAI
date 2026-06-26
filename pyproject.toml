@@ -91,11 +91,13 @@ target-version = "py311"
 src = ["backend", "ml_pipeline", "tests", "scripts"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM", "T20"]
 ignore = ["B008"]
 
 [tool.ruff.lint.per-file-ignores]
 "backend/alembic/**/*.py" = ["I001"]
+"scripts/**/*.py" = ["T20"]
+"ml_pipeline/workers/**/*.py" = ["T20"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["app", "ml_pipeline"]
@@ -125,4 +127,5 @@ omit = ["backend/tests/*"]
 
 [tool.coverage.report]
 fail_under = 70
+# Engineering Constitution target: 90% at release (see docs/RELEASE_CHECKLIST.md)
 show_missing = true

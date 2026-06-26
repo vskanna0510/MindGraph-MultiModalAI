@@ -1,0 +1,26 @@
+{
+  "dataset_name": "MindGraph-MultiDep",
+  "version": "v1",
+  "hash": "95d4b98ea91304db",
+  "creation_date": "2026-06-26T14:57:28.247630+00:00",
+  "source": "DAIC-WOZ,D-VLOG",
+  "license": "Research-only",
+  "num_samples": 186,
+  "participants": 186,
+  "sessions": 186,
+  "languages": [
+    "en"
+  ],
+  "modalities": [
+    "audio",
+    "visual",
+    "text"
+  ],
+  "validation_status": "approved",
+  "quality_score": 0.8,
+  "processing_version": "1.0.0",
+  "git_commit": "e0c537ec4dfb6c4f387b0a1962e98f63142f6cd7",
+  "random_seed": 42,
+  "feature_version": "v1.0",
+  "embedding_version": "v1.0"
+}

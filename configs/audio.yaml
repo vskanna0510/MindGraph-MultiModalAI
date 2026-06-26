@@ -1,0 +1,27 @@
+# Audio processing configuration
+
+audio:
+  sample_rate: 16000
+  mono: true
+  target_lufs: -23.0
+  max_duration_seconds: 600
+  min_duration_seconds: 1.0
+  vad_enabled: true
+  noise_reduction: true
+
+features:
+  mfcc_coeffs: 13
+  include_delta: true
+  include_delta_delta: true
+  extract_prosody: true
+
+embeddings:
+  primary: wav2vec2-base
+  cache_subdir: wav2vec
+  optional:
+    - hubert-base
+
+output:
+  processed_subdir: audio_features
+  naming_pattern: "{participant_id}_audio_v{version}.npy"
+  version: 1

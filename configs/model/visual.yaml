@@ -1,0 +1,13 @@
+encoder: vit
+backbone: vit
+pretrained: google/vit-base-patch16-224
+input_dim: 768
+hidden_dim: 512
+latent_dim: 512
+num_layers: 2
+dropout: 0.1
+pooling: attention
+freeze_mode: partial
+temporal_layers: 2
+num_heads: 8
+max_seq_len: 128

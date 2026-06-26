@@ -1,0 +1,48 @@
+{
+  "approved": true,
+  "passed_gates": 8,
+  "total_gates": 8,
+  "gates": [
+    {
+      "gate": "integrity",
+      "status": "passed",
+      "issues": 186
+    },
+    {
+      "gate": "consistency",
+      "status": "passed",
+      "issues": 0
+    },
+    {
+      "gate": "quality",
+      "status": "passed",
+      "issues": 0
+    },
+    {
+      "gate": "features",
+      "status": "passed",
+      "issues": 0
+    },
+    {
+      "gate": "embeddings",
+      "status": "passed",
+      "issues": 0
+    },
+    {
+      "gate": "statistics",
+      "status": "passed",
+      "issues": 0
+    },
+    {
+      "gate": "leakage",
+      "status": "passed",
+      "issues": 0
+    },
+    {
+      "gate": "export",
+      "status": "passed",
+      "issues": 0
+    }
+  ],
+  "timestamp": "2026-06-26T14:57:29.120764+00:00"
+}

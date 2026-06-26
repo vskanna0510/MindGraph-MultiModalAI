@@ -1,0 +1,126 @@
+{
+  "models": [
+    {
+      "model_id": "MODEL_001",
+      "name": "baseline",
+      "version": "1.0",
+      "architecture": "baseline_mlp",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {},
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    },
+    {
+      "model_id": "MODEL_002",
+      "name": "audio_encoder",
+      "version": "1.0",
+      "architecture": "audio_projection",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {},
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    },
+    {
+      "model_id": "MODEL_003",
+      "name": "visual_encoder",
+      "version": "1.0",
+      "architecture": "vit_projection",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {},
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    },
+    {
+      "model_id": "MODEL_004",
+      "name": "text_encoder",
+      "version": "1.0",
+      "architecture": "text_projection",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {},
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    },
+    {
+      "model_id": "MODEL_005",
+      "name": "image_encoder",
+      "version": "1.0",
+      "architecture": "cnn_projection",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {},
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    },
+    {
+      "model_id": "MODEL_006",
+      "name": "fusion",
+      "version": "1.0",
+      "architecture": "cross_modal_transformer",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {},
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    },
+    {
+      "model_id": "MODEL_007",
+      "name": "temporal",
+      "version": "1.0",
+      "architecture": "temporal_fusion",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {},
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    },
+    {
+      "model_id": "MODEL_008",
+      "name": "graph",
+      "version": "1.0",
+      "architecture": "graphsage",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {},
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    },
+    {
+      "model_id": "MODEL_009",
+      "name": "explainable",
+      "version": "1.0",
+      "architecture": "attribution_engine",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {},
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    },
+    {
+      "model_id": "MODEL_010",
+      "name": "production",
+      "version": "1.0",
+      "architecture": "mindgraph_multimodal",
+      "paper": "",
+      "training_dataset": "",
+      "performance": {
+        "validation": true
+      },
+      "checkpoint": "",
+      "export_status": "pending",
+      "owner": "mindgraph"
+    }
+  ]
+}

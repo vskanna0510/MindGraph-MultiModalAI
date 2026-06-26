@@ -1,0 +1,11 @@
+metrics:
+  - accuracy
+  - precision
+  - recall
+  - f1
+  - weighted_f1
+  - roc_auc
+  - pr_auc
+  - mcc
+threshold: 0.5
+bootstrap_samples: 1000

@@ -1,0 +1,38 @@
+# MindGraph++ Fusion Architecture (MP3 Part 3)
+
+fusion:
+  strategy: cross_modal_transformer  # early | late | cross_attention | co_attention | gated | dynamic | residual | quality_aware
+  d_model: 512
+  num_heads: 8
+  num_layers: 2
+  ffn_dim: 2048
+  dropout: 0.1
+  attention_dropout: 0.1
+  activation: gelu
+  positional_encoding: learnable  # sinusoidal | relative | temporal
+  cross_attention_mode: all_to_all  # pairwise | all_to_all
+  self_attention_before_cross: true
+  residual_fusion: true
+  quality_aware: true
+
+temporal:
+  enabled: true
+  num_layers: 2
+  max_sessions: 12
+  positional_encoding: temporal
+  multi_scale: true
+  augmentation_train_only: true
+
+modalities: [audio, visual, text, image]
+modality_tokens: [CLS, AUDIO, VISUAL, TEXT, IMAGE, GRAPH, TIME]
+
+benchmark:
+  strategies:
+    - early
+    - late
+    - transformer
+    - cross_attention
+    - gated
+    - residual
+    - quality_aware
+  metrics: [f1, auc, precision, recall, latency_ms, memory_mb]

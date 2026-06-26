@@ -1,0 +1,27 @@
+{
+  "overview": "MindGraph++ multimodal depression detection architecture",
+  "architecture": "Independent encoders + cross-modal transformer + GNN",
+  "input_spec": {
+    "modalities": [
+      "audio",
+      "visual",
+      "text",
+      "image"
+    ]
+  },
+  "output_spec": {
+    "logits": "[B, 2]",
+    "risk_logits": "[B, 3]"
+  },
+  "training_dataset": "DAIC-WOZ, D-VLOG",
+  "metrics": {},
+  "limitations": [],
+  "hardware": "CUDA / CPU",
+  "inference_time_ms": 0.0,
+  "memory_mb": 0.0,
+  "export_formats": [
+    "pytorch",
+    "torchscript",
+    "onnx"
+  ]
+}

@@ -1,0 +1,34 @@
+name: ML Data Quality
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'ml_pipeline/**'
+      - 'datasets/**'
+      - 'configs/data_quality.yaml'
+      - 'scripts/data_quality/**'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'ml_pipeline/**'
+      - 'datasets/**'
+      - 'configs/data_quality.yaml'
+      - 'scripts/data_quality/**'
+
+jobs:
+  data-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pytest pandas numpy pyyaml scikit-learn matplotlib
+      - run: pytest ml_pipeline/data_quality/tests ml_pipeline/feature_store/tests ml_pipeline/models/tests -q --tb=short
+        env:
+          PYTHONPATH: .
+      - run: python scripts/data_quality/run_validation.py --ci
+        env:
+          PYTHONPATH: .
+        continue-on-error: false

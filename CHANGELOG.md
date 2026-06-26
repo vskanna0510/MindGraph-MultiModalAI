@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Master Prompt 1 Part 5 (Engineering Constitution)
+
+- `docs/ENGINEERING_CONSTITUTION.md` — governing document (overrides prior instructions)
+- `.github/pull_request_template.md`
+- `docs/CODE_REVIEW_CHECKLIST.md`, `docs/RELEASE_CHECKLIST.md`
+- `docs/diagrams/` — ER and Neo4j schema diagrams
+- Audit model extended: request_id, action, ip_address, device, detail
+- Alembic migration `20260626_audit_constitution_fields`
+- Ruff `T20` ban on `print()` in application code (scripts exempt)
+
 ### Added — Master Prompt 1 Part 4 (Research & MLOps)
 
 - `research/` directory tree with literature, ablations, benchmarks, reproducibility
