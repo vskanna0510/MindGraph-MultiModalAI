@@ -1,0 +1,19 @@
+name: Docker
+
+on:
+  push:
+    branches: [main, develop]
+    paths: ['deployment/docker/**', 'backend/**', 'requirements*.txt']
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build backend image
+        run: docker build -f deployment/docker/backend/Dockerfile -t mindgraph-backend:ci .
+      - name: Build nginx image
+        run: docker build -f deployment/docker/nginx/Dockerfile -t mindgraph-nginx:ci .

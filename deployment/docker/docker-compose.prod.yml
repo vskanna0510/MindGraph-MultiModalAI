@@ -1,0 +1,124 @@
+# MindGraph++ Production Docker Compose
+# Databases are NOT exposed to the host — internal network only.
+
+name: mindgraph-prod
+
+x-backend-env: &backend-env
+  APP_ENV: production
+  APP_DEBUG: "false"
+  DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+  REDIS_URL: redis://redis:6379/0
+  NEO4J_URI: bolt://neo4j:7687
+  CELERY_BROKER_URL: redis://redis:6379/1
+  CELERY_RESULT_BACKEND: redis://redis:6379/2
+  LOG_DIRECTORY: /app/logs
+
+services:
+  postgres:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/postgres/Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../../backups/postgres:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mindgraph-prod
+
+  redis:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/redis/Dockerfile
+    restart: always
+    volumes:
+      - redis_data:/data
+    networks:
+      - mindgraph-prod
+
+  neo4j:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/neo4j/Dockerfile
+    restart: always
+    environment:
+      NEO4J_AUTH: ${NEO4J_USERNAME}/${NEO4J_PASSWORD}
+    volumes:
+      - neo4j_data:/data
+      - ../../backups/neo4j:/backups
+    networks:
+      - mindgraph-prod
+
+  backend:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/backend/Dockerfile
+    restart: always
+    env_file:
+      - ../../.env.production
+    environment:
+      <<: *backend-env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - mindgraph-prod
+
+  celery-worker:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/celery/Dockerfile
+    restart: always
+    env_file:
+      - ../../.env.production
+    environment:
+      <<: *backend-env
+    depends_on:
+      - backend
+    networks:
+      - mindgraph-prod
+
+  celery-beat:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/celery/Dockerfile
+    restart: always
+    command: ["celery", "-A", "app.workers.celery_app", "beat", "--loglevel=INFO"]
+    env_file:
+      - ../../.env.production
+    environment:
+      <<: *backend-env
+    networks:
+      - mindgraph-prod
+
+  nginx:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/nginx/Dockerfile
+    restart: always
+    ports:
+      - "443:443"
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - mindgraph-prod
+
+volumes:
+  postgres_data:
+  redis_data:
+  neo4j_data:
+
+networks:
+  mindgraph-prod:
+    driver: bridge

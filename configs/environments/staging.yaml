@@ -1,0 +1,10 @@
+# Staging — pre-production validation
+environment: staging
+logging:
+  level: INFO
+database:
+  echo: false
+security:
+  strict_mode: true
+monitoring:
+  enabled: true

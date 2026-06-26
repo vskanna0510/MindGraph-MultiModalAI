@@ -1,4 +1,5 @@
-.PHONY: install run backend flutter train graph docker lint test docs clean format benchmark deploy
+.PHONY: install run backend flutter train graph docker docker-dev docker-test docker-prod docker-monitoring docker-down lint test docs clean format benchmark deploy hooks docs-gen validate migrate
+
 
 PYTHON ?= python
 VENV ?= .venv
@@ -52,10 +53,27 @@ graph:
 	@echo "Apply Neo4j migrations from graphs/migrations/ via Neo4j Browser or cypher-shell"
 
 docker:
-	docker compose up -d
+	docker compose -f deployment/docker/docker-compose.dev.yml up -d
+
+docker-dev: docker
+
+docker-test:
+	docker compose -f deployment/docker/docker-compose.test.yml up -d
+
+docker-prod:
+	docker compose -f deployment/docker/docker-compose.prod.yml up -d
+
+docker-monitoring:
+	docker compose -f deployment/docker/docker-compose.monitoring.yml up -d
 
 docker-down:
-	docker compose down
+	docker compose -f deployment/docker/docker-compose.dev.yml down
+
+validate:
+	$(PYTHON_BIN) scripts/devops/validate_environment.py
+
+migrate:
+	cd backend && PYTHONPATH=. $(PYTHON_BIN) -m alembic upgrade head
 
 lint:
 	$(PYTHON_BIN) -m ruff check backend ml_pipeline tests scripts

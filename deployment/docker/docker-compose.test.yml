@@ -1,0 +1,44 @@
+# MindGraph++ CI/Test Docker Compose — ephemeral services, no host port binding for DBs
+
+name: mindgraph-test
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mindgraph
+      POSTGRES_PASSWORD: mindgraph_test
+      POSTGRES_DB: mindgraph_test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mindgraph"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - mindgraph-test
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - mindgraph-test
+
+  neo4j:
+    image: neo4j:5-community
+    environment:
+      NEO4J_AUTH: neo4j/mindgraph_test_neo4j
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - mindgraph-test
+
+networks:
+  mindgraph-test:
+    driver: bridge

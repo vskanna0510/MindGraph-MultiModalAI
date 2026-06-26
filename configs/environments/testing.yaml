@@ -1,0 +1,10 @@
+# Testing — CI and automated test runs
+environment: testing
+logging:
+  level: WARNING
+database:
+  echo: false
+security:
+  strict_mode: true
+monitoring:
+  enabled: false

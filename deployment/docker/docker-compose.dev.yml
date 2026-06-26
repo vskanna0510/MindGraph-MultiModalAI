@@ -1,0 +1,200 @@
+# MindGraph++ Development Docker Compose
+# Usage: docker compose -f deployment/docker/docker-compose.dev.yml up -d
+
+name: mindgraph-dev
+
+x-backend-env: &backend-env
+  APP_ENV: development
+  DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-mindgraph}:${POSTGRES_PASSWORD:-mindgraph}@postgres:5432/${POSTGRES_DB:-mindgraph}
+  REDIS_URL: redis://redis:6379/0
+  NEO4J_URI: bolt://neo4j:7687
+  CELERY_BROKER_URL: redis://redis:6379/1
+  CELERY_RESULT_BACKEND: redis://redis:6379/2
+  LOG_DIRECTORY: /app/logs
+  MODEL_DIRECTORY: /app/ml_pipeline/weights
+  UPLOAD_DIRECTORY: /app/uploads
+  SKIP_STARTUP_VALIDATION: "false"
+
+services:
+  postgres:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/postgres/Dockerfile
+    container_name: mindgraph-dev-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-mindgraph}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mindgraph}
+      POSTGRES_DB: ${POSTGRES_DB:-mindgraph}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mindgraph}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mindgraph-internal
+
+  redis:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/redis/Dockerfile
+    container_name: mindgraph-dev-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mindgraph-internal
+
+  neo4j:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/neo4j/Dockerfile
+    container_name: mindgraph-dev-neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: ${NEO4J_USERNAME:-neo4j}/${NEO4J_PASSWORD:-mindgraph_neo4j}
+      NEO4J_PLUGINS: '["apoc", "graph-data-science"]'
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*,gds.*
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - mindgraph-internal
+
+  minio:
+    image: minio/minio:latest
+    container_name: mindgraph-dev-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY:-minioadmin}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - mindgraph-internal
+
+  backend:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/backend/Dockerfile
+    container_name: mindgraph-dev-backend
+    restart: unless-stopped
+    env_file:
+      - ../../.env
+    environment:
+      <<: *backend-env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../logs:/app/logs
+      - ../../cache:/app/cache
+      - ../../uploads:/app/uploads
+      - ../../ml_pipeline/weights:/app/ml_pipeline/weights
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+    networks:
+      - mindgraph-internal
+
+  celery-worker:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/celery/Dockerfile
+    container_name: mindgraph-dev-celery-worker
+    restart: unless-stopped
+    env_file:
+      - ../../.env
+    environment:
+      <<: *backend-env
+    depends_on:
+      - backend
+      - redis
+    networks:
+      - mindgraph-internal
+
+  celery-beat:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/celery/Dockerfile
+    container_name: mindgraph-dev-celery-beat
+    restart: unless-stopped
+    command: ["celery", "-A", "app.workers.celery_app", "beat", "--loglevel=INFO"]
+    env_file:
+      - ../../.env
+    environment:
+      <<: *backend-env
+    depends_on:
+      - redis
+    networks:
+      - mindgraph-internal
+
+  ml-worker:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/celery/Dockerfile.ml-worker
+    container_name: mindgraph-dev-ml-worker
+    restart: unless-stopped
+    env_file:
+      - ../../.env
+    environment:
+      <<: *backend-env
+    volumes:
+      - ../../ml_pipeline/weights:/app/ml_pipeline/weights
+      - ../../cache:/app/cache
+    depends_on:
+      - redis
+    networks:
+      - mindgraph-internal
+    profiles:
+      - ml
+
+  nginx:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/nginx/Dockerfile
+    container_name: mindgraph-dev-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - mindgraph-internal
+
+volumes:
+  postgres_data:
+  redis_data:
+  neo4j_data:
+  neo4j_logs:
+  minio_data:
+
+networks:
+  mindgraph-internal:
+    driver: bridge

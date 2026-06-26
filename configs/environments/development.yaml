@@ -1,0 +1,10 @@
+# Development — local machine defaults
+environment: development
+logging:
+  level: DEBUG
+database:
+  echo: true
+security:
+  strict_mode: false
+monitoring:
+  enabled: false

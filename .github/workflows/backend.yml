@@ -1,0 +1,54 @@
+# MindGraph++ CI — Backend
+
+name: Backend
+
+on:
+  push:
+    branches: [main, develop]
+    paths: ['backend/**', 'configs/**', 'requirements*.txt', 'pyproject.toml']
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: mindgraph
+          POSTGRES_PASSWORD: mindgraph_test
+          POSTGRES_DB: mindgraph_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U mindgraph"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements-dev.txt -r requirements-test.txt
+      - run: python scripts/devops/validate_environment.py
+      - run: python -m black --check backend scripts
+      - run: python -m ruff check backend scripts
+      - run: python -m mypy backend/app
+      - run: python -m bandit -r backend/app -x backend/tests
+      - run: pytest backend/tests -v --cov=app --cov-report=xml --cov-fail-under=70
+        env:
+          PYTHONPATH: backend
+          SKIP_STARTUP_VALIDATION: 'true'
+          SECRET_KEY: ci-secret-key-min-16-chars
+          ENCRYPTION_KEY: ci-encryption-key-32bytes!!
+          JWT_SECRET: ci-jwt-secret-minimum-32-characters-long
+          DATABASE_URL: postgresql+asyncpg://mindgraph:mindgraph_test@localhost:5432/mindgraph_test
+      - uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          files: ./coverage.xml
+        continue-on-error: true

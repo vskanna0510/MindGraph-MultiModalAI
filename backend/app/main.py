@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app import __version__
 from app.api.v1 import api_v1_router
 from app.config.settings import Settings, get_settings
+from app.core.startup import StartupValidationError, run_startup_validation
 from app.logging import configure_logging, get_logger
 from app.middleware.error_handler import register_exception_handlers
 from app.middleware.request_context import RequestContextMiddleware
@@ -21,6 +22,11 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Application startup and shutdown lifecycle."""
     settings: Settings = getattr(app.state, "settings", None) or get_settings()
     configure_logging(settings)
+    try:
+        await run_startup_validation(settings)
+    except StartupValidationError as exc:
+        logger.critical("startup_validation_failed", error=str(exc))
+        raise
     logger.info(
         "application_starting",
         app_name=settings.app_name,

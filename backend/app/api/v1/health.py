@@ -1,10 +1,12 @@
 """Health check and service information endpoints."""
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response, status
 
 from app import __version__
 from app.config.settings import Settings, get_settings
+from app.database.health import check_neo4j, check_postgres, check_redis
 from app.schemas.common import ApiResponse, HealthStatus, ServiceInfo
+from app.schemas.health import LivenessStatus, ReadinessStatus
 
 router = APIRouter(tags=["health"])
 
@@ -24,7 +26,7 @@ async def root(settings: Settings = Depends(get_settings)) -> ApiResponse[Servic
 
 @router.get("/health", response_model=ApiResponse[HealthStatus])
 async def health_check(settings: Settings = Depends(get_settings)) -> ApiResponse[HealthStatus]:
-    """Return application health status."""
+    """Return aggregate application health status."""
     backend_config = settings.get_yaml("backend.yaml")
     app_config = settings.get_yaml("app.yaml")
     include_deps = backend_config.get("health", {}).get("include_dependencies")
@@ -34,15 +36,43 @@ async def health_check(settings: Settings = Depends(get_settings)) -> ApiRespons
     dependencies: dict[str, str] = {}
     if include_deps:
         dependencies = {
-            "postgres": "not_checked",
-            "redis": "not_checked",
-            "neo4j": "not_checked",
+            "postgres": await check_postgres(settings),
+            "redis": await check_redis(settings),
+            "neo4j": await check_neo4j(settings),
         }
 
-    status = HealthStatus(
+    payload = HealthStatus(
         service=settings.app_name,
         version=__version__,
         environment=settings.app_env,
         dependencies=dependencies,
     )
-    return ApiResponse.success(message="Service is healthy", data=status)
+    return ApiResponse.success(message="Service is healthy", data=payload)
+
+
+@router.get("/health/liveness", response_model=ApiResponse[LivenessStatus])
+async def liveness(settings: Settings = Depends(get_settings)) -> ApiResponse[LivenessStatus]:
+    """Kubernetes liveness probe — process is running."""
+    data = LivenessStatus(alive=True, service=settings.app_name, version=__version__)
+    return ApiResponse.success(message="Alive", data=data)
+
+
+@router.get("/health/readiness", response_model=ApiResponse[ReadinessStatus])
+async def readiness(
+    response: Response,
+    settings: Settings = Depends(get_settings),
+) -> ApiResponse[ReadinessStatus]:
+    """Kubernetes readiness probe — dependencies available."""
+    dependencies = {
+        "postgres": await check_postgres(settings),
+        "redis": await check_redis(settings),
+        "neo4j": await check_neo4j(settings),
+    }
+    ready = all(state == "healthy" for state in dependencies.values())
+    data = ReadinessStatus(ready=ready, dependencies=dependencies)
+    if not ready:
+        response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+    return ApiResponse.success(
+        message="Ready" if ready else "Not ready",
+        data=data,
+    )

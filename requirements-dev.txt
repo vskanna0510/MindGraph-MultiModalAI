@@ -8,6 +8,7 @@ bandit>=1.8.0
 isort>=5.13.0
 ipython>=8.29.0
 pre-commit>=4.0.0
+safety>=3.2.0
 
 # ML (optional local training — large download)
 # Uncomment or install via: pip install -r requirements-dev.txt -r requirements-ml.txt

@@ -1,0 +1,12 @@
+# Production — strict settings only
+environment: production
+logging:
+  level: INFO
+database:
+  echo: false
+security:
+  strict_mode: true
+monitoring:
+  enabled: true
+backup:
+  retention_days: 30

@@ -1,0 +1,19 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build changelog excerpt
+        run: |
+          echo "## Release ${GITHUB_REF_NAME}" >> release_notes.md
+          echo "See CHANGELOG.md for migration notes and breaking changes." >> release_notes.md
+      - uses: softprops/action-gh-release@v2
+        with:
+          body_path: release_notes.md
+          generate_release_notes: true

@@ -1,0 +1,2 @@
+# Self-signed TLS for local staging only.
+# Generate: scripts/devops/generate_dev_certs.sh
