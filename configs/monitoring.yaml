@@ -1,0 +1,35 @@
+# Monitoring and Observability Configuration
+
+metrics:
+  enabled: true
+  export_interval_seconds: 60
+
+prometheus:
+  enabled: true
+  port: 9090
+  path: /metrics
+
+targets:
+  api_latency_p95_ms: 500
+  inference_latency_p95_ms: 2000
+  neo4j_query_p95_ms: 100
+  auth_latency_p95_ms: 300
+  graph_render_p95_ms: 500
+
+alerts:
+  enabled: false
+  high_error_rate_threshold: 0.05
+  high_latency_multiplier: 2.0
+
+logging:
+  correlation_id_header: X-Request-ID
+  include_duration: true
+
+tracing:
+  enabled: false
+  exporter: otlp
+  endpoint: http://localhost:4317
+
+mobile:
+  track_battery: true
+  track_frame_drops: true

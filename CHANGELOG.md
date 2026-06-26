@@ -9,19 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial repository foundation (Master Prompt 1 — Part 1)
-- Monorepo structure: backend, flutter_app, ml_pipeline, configs, graphs
-- Docker Compose stack: PostgreSQL, Neo4j, Redis, MinIO
-- Environment configuration via `.env` and `configs/*.yaml`
-- FastAPI application entry with health endpoints and structured logging
-- Setup scripts for Windows, Linux, and macOS
-- Makefile with install, run, lint, test, docker targets
-- Apache 2.0 license and contribution guidelines
+- Master Prompt 1 Part 2 development standards
+- `SECURITY.md` and security reporting policy
+- `.pre-commit-config.yaml` (Black, Ruff, isort, Bandit, hooks)
+- `configs/backend.yaml`, `configs/monitoring.yaml`
+- Custom exception hierarchy (`AuthenticationError`, `ValidationError`, etc.)
+- Global FastAPI exception handlers with standard API envelope
+- `backend/main.py` Uvicorn entry point
+- `app/logging/` centralized logging module
+- Repository base contract (`app/repositories/base.py`)
+- `scripts/ensure_module_docs.py` for README and module doc generation
+- Flutter `lib/core/routes/` alias per directory standard
+- ML pipeline folders: `augmentations/`, `embeddings/`, `metrics/`, `tests/`
+- Backend `docs/api_reference.md`
+- Exception unit tests (87% coverage on app package)
 
-### Security
+### Changed
 
-- `.env.example` template with no committed secrets
-- Comprehensive `.gitignore` for secrets, datasets, and model weights
+- Makefile: `hooks`, `docs-gen` targets; `main:app` backend entry
+- Health check reads `configs/backend.yaml` with `app.yaml` fallback
 
 ## [0.1.0] - 2026-06-26
 

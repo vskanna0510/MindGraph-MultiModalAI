@@ -20,6 +20,9 @@ python -m pip install --upgrade pip
 pip install -r requirements-dev.txt
 pip install -r requirements-test.txt
 
+python scripts\ensure_module_docs.py
+python -m pre_commit install 2>$null
+
 if (-not (Test-Path ".env")) {
     Copy-Item .env.example .env
     Write-Host "Created .env from .env.example"

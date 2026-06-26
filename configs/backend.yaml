@@ -1,0 +1,47 @@
+# MindGraph++ Backend Configuration
+# Loaded via configs/backend.yaml — never hardcode secrets here.
+
+app:
+  name: MindGraph++
+  version: "0.1.0"
+  api_version: v1
+  debug: false
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+  reload: true  # development only
+
+cors:
+  allow_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+  allow_credentials: true
+  allow_methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+  allow_headers: ["*"]
+
+rate_limit:
+  enabled: true
+  requests_per_minute: 120
+
+health:
+  include_dependencies: true
+
+api:
+  default_page_size: 20
+  max_page_size: 100
+  request_timeout_seconds: 30
+
+workers:
+  celery:
+    enabled: true
+    default_queue: mindgraph.default
+    concurrency: 2
+
+cache:
+  redis:
+    prediction_ttl_seconds: 3600
+    embedding_ttl_seconds: 604800
+    graph_query_ttl_seconds: 300
+    metadata_ttl_seconds: 900

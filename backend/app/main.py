@@ -9,7 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app import __version__
 from app.api.v1 import api_v1_router
 from app.config.settings import Settings, get_settings
-from app.core.logging import configure_logging, get_logger
+from app.logging import configure_logging, get_logger
+from app.middleware.error_handler import register_exception_handlers
 from app.middleware.request_context import RequestContextMiddleware
 
 logger = get_logger(__name__)
@@ -33,7 +34,9 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 def create_app(settings: Settings | None = None) -> FastAPI:
     """Create and configure the FastAPI application."""
     resolved_settings = settings or get_settings()
-    app_config = resolved_settings.get_yaml("app.yaml")
+    app_config = resolved_settings.get_yaml("backend.yaml")
+    if not app_config:
+        app_config = resolved_settings.get_yaml("app.yaml")
 
     application = FastAPI(
         title=resolved_settings.app_name,
@@ -55,6 +58,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_headers=app_config.get("cors", {}).get("allow_headers", ["*"]),
     )
     application.add_middleware(RequestContextMiddleware)
+    register_exception_handlers(application)
 
     application.include_router(
         api_v1_router,

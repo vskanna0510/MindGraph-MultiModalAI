@@ -25,8 +25,11 @@ async def root(settings: Settings = Depends(get_settings)) -> ApiResponse[Servic
 @router.get("/health", response_model=ApiResponse[HealthStatus])
 async def health_check(settings: Settings = Depends(get_settings)) -> ApiResponse[HealthStatus]:
     """Return application health status."""
+    backend_config = settings.get_yaml("backend.yaml")
     app_config = settings.get_yaml("app.yaml")
-    include_deps = app_config.get("health", {}).get("include_dependencies", True)
+    include_deps = backend_config.get("health", {}).get("include_dependencies")
+    if include_deps is None:
+        include_deps = app_config.get("health", {}).get("include_dependencies", True)
 
     dependencies: dict[str, str] = {}
     if include_deps:

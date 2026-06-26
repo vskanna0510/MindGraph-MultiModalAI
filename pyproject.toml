@@ -115,3 +115,11 @@ exclude_dirs = ["tests", "backend/tests", ".venv"]
 profile = "black"
 line_length = 100
 known_first_party = ["app", "ml_pipeline"]
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["backend/tests/*"]
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true
