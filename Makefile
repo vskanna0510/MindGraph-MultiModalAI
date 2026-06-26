@@ -53,7 +53,14 @@ train-dry-run:
 	$(PYTHON_BIN) -m ml_pipeline.training.train --dry-run
 
 graph:
-	@echo "Apply Neo4j migrations: graphs/migrations/001_schema.cypher, 002_relationships.cypher"
+	@echo "Neo4j migrations applied on backend startup when indexes.auto_create=true"
+	@echo "Manual: cypher-shell -f graphs/migrations/001_schema.cypher"
+
+graph-migrate:
+	$(PYTHON_BIN) -c "import asyncio; from app.config.settings import get_settings; from graph.connection import init_neo4j_driver, get_neo4j_driver; from graph.migration import MigrationRunner; s=get_settings(); init_neo4j_driver(s.neo4j_uri,s.neo4j_username,s.neo4j_password); async def run():\n d=get_neo4j_driver();\n async with d.session(database=s.neo4j_database) as sess:\n  print(await MigrationRunner().apply_all(sess));\n asyncio.run(run())"
+
+graph-test:
+	$(PYTEST) backend/graph/tests -v --tb=short
 
 graph-build:
 	$(PYTHON_BIN) scripts/graph/build_graph.py --builder temporal

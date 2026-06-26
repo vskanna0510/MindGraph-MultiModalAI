@@ -1,22 +1,19 @@
-# Feature cache configuration
+# Graph cache configuration
 
-cache:
-  root: datasets/cache
-  version_tag: v1
-  ttl_days: 30
-  subdirs:
-    wav2vec: wav2vec
-    hubert: hubert
-    bert: bert
-    indicbert: indicbert
-    mediapipe: mediapipe
-    frames: frames
-    transcripts: transcripts
-    audio: audio
-    video: video
-    images: images
+graph_cache:
+  enabled: true
+  default_ttl_seconds: 300
+  max_entries: 1000
 
-  key_fields:
-    - file_hash
-    - extractor_version
-    - config_version
+keys:
+  user_graph: "graph:user:{user_id}"
+  session_graph: "graph:session:{session_id}"
+  prediction_graph: "graph:prediction:{user_id}"
+  temporal_query: "graph:temporal:{user_id}:{window}"
+  recommendations: "graph:rec:{user_id}"
+  embeddings: "graph:emb:{node_id}"
+
+invalidation:
+  on_user_update: true
+  on_session_update: true
+  on_prediction_update: true

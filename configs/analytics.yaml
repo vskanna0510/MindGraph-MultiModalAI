@@ -1,0 +1,13 @@
+# Graph analytics configuration
+
+statistics:
+  enabled: true
+  refresh_interval_seconds: 300
+
+risk:
+  high_threshold: 0.7
+  medium_threshold: 0.4
+
+trends:
+  min_sessions: 3
+  window_days: 90

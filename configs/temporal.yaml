@@ -1,0 +1,25 @@
+# Temporal graph configuration
+
+timeline:
+  units:
+    - seconds
+    - minutes
+    - hours
+    - days
+    - weeks
+    - months
+    - years
+  default_window_days: 30
+  max_history_sessions: 12
+
+model:
+  append_only: true
+  never_delete_history: true
+  support_absolute_time: true
+  support_relative_time: true
+  support_elapsed_time: true
+  support_session_distance: true
+
+edges:
+  temporal_precedes: TEMPORALLY_PRECEDES
+  followed_by: FOLLOWED_BY

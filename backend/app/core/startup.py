@@ -100,6 +100,7 @@ async def run_startup_validation(settings: Settings) -> None:
     if created:
         logger.info("directories_created", paths=created)
 
+    deps: dict[str, str] = {}
     if settings.app_env in {"development", "staging", "production"}:
         deps = await validate_dependencies(settings)
         unhealthy = [name for name, status in deps.items() if status != "healthy"]
@@ -111,3 +112,23 @@ async def run_startup_validation(settings: Settings) -> None:
             logger.warning("dependencies_not_ready", dependencies=deps)
 
     logger.info("startup_validation_passed", environment=settings.app_env)
+
+    from graph.connection import init_neo4j_driver
+    from graph.config.loader import get_graph_config
+    from graph.migration import MigrationRunner
+
+    init_neo4j_driver(settings.neo4j_uri, settings.neo4j_username, settings.neo4j_password)
+    cfg = get_graph_config()
+    if cfg.auto_create_indexes and deps.get("neo4j") == "healthy":
+        try:
+            from graph.connection import get_neo4j_driver
+
+            driver = get_neo4j_driver()
+            async with driver.session(database=settings.neo4j_database) as session:
+                applied = await MigrationRunner().apply_all(session)
+                if applied:
+                    logger.info("neo4j_migrations_applied", files=applied)
+        except Exception as exc:
+            if settings.app_env == "production":
+                raise StartupValidationError(f"Neo4j migration failed: {exc}") from exc
+            logger.warning("neo4j_migration_skipped", error=str(exc))

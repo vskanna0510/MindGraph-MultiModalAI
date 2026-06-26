@@ -1,0 +1,25 @@
+"""Entity catalog constants — emotions, symptoms, behaviours, recommendations."""
+
+from graph.schema.nodes.definitions import (
+    APPEND_ONLY_LABELS,
+    NATURAL_KEYS,
+    NODE_LABELS,
+    NODE_PROPERTY_SCHEMAS,
+    STABLE_NODE_LABELS,
+    SUPPORTED_BEHAVIOURS,
+    SUPPORTED_EMOTIONS,
+    SUPPORTED_RECOMMENDATIONS,
+    SUPPORTED_SYMPTOMS,
+)
+
+__all__ = [
+    "NODE_LABELS",
+    "NODE_PROPERTY_SCHEMAS",
+    "NATURAL_KEYS",
+    "STABLE_NODE_LABELS",
+    "APPEND_ONLY_LABELS",
+    "SUPPORTED_EMOTIONS",
+    "SUPPORTED_SYMPTOMS",
+    "SUPPORTED_BEHAVIOURS",
+    "SUPPORTED_RECOMMENDATIONS",
+]

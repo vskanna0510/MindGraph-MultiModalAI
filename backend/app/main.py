@@ -34,6 +34,12 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         environment=settings.app_env,
     )
     yield
+    try:
+        from graph.connection import close_neo4j_driver
+
+        await close_neo4j_driver()
+    except Exception:
+        pass
     logger.info("application_shutdown", app_name=settings.app_name)
 
 

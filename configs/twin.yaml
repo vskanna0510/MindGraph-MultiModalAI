@@ -1,0 +1,51 @@
+# Digital Cognitive Twin Configuration (MP4 Part 4)
+
+twin:
+  version: "2.0.0"
+  schema_version: "2.0.0"
+
+profiles:
+  behaviour_signals:
+    - speech_rate
+    - voice_energy
+    - pause_behaviour
+    - eye_contact
+    - blink_rate
+    - head_movement
+    - facial_activity
+    - conversation_length
+    - response_delay
+    - interaction_frequency
+  emotion_tracking:
+    - average_emotion
+    - variability
+    - stability
+    - dominant_emotion
+    - weekly_trend
+    - monthly_trend
+
+summaries:
+  windows_days: [30, 90, 180, 365]
+
+risk_forecast:
+  horizons_days: [7, 30, 90]
+  min_sessions: 3
+
+recommendation:
+  low_risk_threshold: 0.4
+  medium_risk_threshold: 0.7
+  max_recommendations: 8
+  diversity_weight: 0.15
+
+performance_targets_ms:
+  recommendation: 100
+  timeline_summary: 50
+  explanation: 150
+  twin_update: 50
+
+export:
+  formats: [json, csv, graphml, cypher, networkx]
+
+security:
+  encrypt_backups: true
+  authorize_every_query: true

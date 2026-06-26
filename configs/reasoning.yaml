@@ -1,0 +1,37 @@
+# Graph Reasoning Engine Configuration (MP4 Part 3)
+
+reasoning:
+  version: "2.0.0"
+  confidence_threshold: 0.5
+  max_inference_depth: 4
+  max_hops: 3
+
+temporal_windows:
+  previous_session: 0
+  last_7_days: 7
+  last_30_days: 30
+  last_90_days: 90
+  last_6_months: 180
+  entire_history: -1
+
+performance_targets_ms:
+  timeline: 50
+  subgraph: 75
+  analytics: 100
+  recommendation: 150
+  incremental_update: 50
+
+explainability:
+  include_path: true
+  max_path_length: 8
+
+alerts:
+  enabled: true
+  risk_increase_threshold: 0.15
+  repeated_high_risk_count: 3
+  deterioration_slope: 0.05
+  missing_session_gap_days: 7
+
+similarity:
+  research_mode_only: true
+  min_confidence: 0.5

@@ -77,7 +77,7 @@ ml = [
 
 [tool.setuptools.packages.find]
 where = ["backend"]
-include = ["app*"]
+include = ["app*", "graph*"]
 
 [tool.black]
 line-length = 100
@@ -100,7 +100,7 @@ ignore = ["B008"]
 "ml_pipeline/workers/**/*.py" = ["T20"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["app", "ml_pipeline"]
+known-first-party = ["app", "graph", "ml_pipeline"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -110,7 +110,7 @@ packages = ["app"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-testpaths = ["backend/tests", "ml_pipeline/tests", "tests"]
+testpaths = ["backend/tests", "backend/graph/tests", "ml_pipeline/tests", "tests"]
 pythonpath = ["backend", "."]
 
 [tool.bandit]
@@ -119,10 +119,10 @@ exclude_dirs = ["tests", "backend/tests", ".venv"]
 [tool.isort]
 profile = "black"
 line_length = 100
-known_first_party = ["app", "ml_pipeline"]
+known_first_party = ["app", "graph", "ml_pipeline"]
 
 [tool.coverage.run]
-source = ["app"]
+source = ["app", "graph"]
 omit = ["backend/tests/*"]
 
 [tool.coverage.report]

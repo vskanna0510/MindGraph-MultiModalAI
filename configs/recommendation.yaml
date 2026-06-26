@@ -1,0 +1,13 @@
+# Graph recommendation layer configuration
+
+recommendation:
+  version: "1.0.0"
+  max_results: 10
+  min_confidence: 0.6
+  query_target_ms: 100
+
+interventions:
+  enabled: true
+  sources:
+    - graph
+    - clinical_rules

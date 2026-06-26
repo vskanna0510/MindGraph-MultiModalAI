@@ -1,0 +1,39 @@
+# MindGraph++ Knowledge Graph Platform Configuration
+
+platform:
+  name: mindgraph-kg
+  version: "2.0.0"
+  schema_version: "1.0.0"
+  pipeline_version: "1.0.0"
+
+storage:
+  backend: neo4j
+  never_store_raw_media: true
+
+limits:
+  max_subgraph_depth: 3
+  max_nodes_per_query: 500
+  default_query_timeout_ms: 10000
+  insert_target_ms: 50
+  lookup_target_ms: 10
+  timeline_target_ms: 50
+
+versioning:
+  track_schema: true
+  track_pipeline: true
+  track_model: true
+  track_embedding: true
+  track_prediction: true
+  track_reasoning: true
+  track_migration: true
+
+identity:
+  required_fields:
+    - uuid
+    - created_at
+    - last_updated
+    - version
+    - source
+    - owner
+    - confidence
+    - checksum
