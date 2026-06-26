@@ -1,0 +1,28 @@
+# Deployment Configuration
+
+deployment:
+  environment: development
+  replicas:
+    api: 1
+    worker: 1
+
+docker:
+  network: mindgraph-network
+  restart_policy: unless-stopped
+
+render:
+  bind_host: "0.0.0.0"
+  port_env_var: PORT
+
+health_check:
+  path: /api/v1/health
+  interval_seconds: 30
+  timeout_seconds: 10
+
+resources:
+  api:
+    memory_limit: 2Gi
+    cpu_limit: 2
+  worker:
+    memory_limit: 4Gi
+    cpu_limit: 4

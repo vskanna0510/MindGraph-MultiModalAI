@@ -1,0 +1,21 @@
+# Database Configuration
+
+postgres:
+  pool_size: 10
+  max_overflow: 20
+  pool_pre_ping: true
+  echo: false
+
+neo4j:
+  max_connection_pool_size: 50
+  connection_acquisition_timeout: 60
+  encrypted: false
+
+redis:
+  decode_responses: true
+  socket_timeout: 5
+  socket_connect_timeout: 5
+  health_check_interval: 30
+
+migrations:
+  alembic_script_location: backend/app/database/postgres/migrations

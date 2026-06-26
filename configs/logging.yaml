@@ -1,0 +1,31 @@
+# Logging Configuration
+
+logging:
+  level: INFO
+  format: json  # json | console
+  include_timestamp: true
+  include_request_id: true
+  include_user_id: true
+
+handlers:
+  console:
+    enabled: true
+  file:
+    enabled: true
+    path: backend/logs/app.log
+    rotation: "10 MB"
+    retention: 10
+
+loggers:
+  uvicorn: INFO
+  sqlalchemy: WARNING
+  neo4j: WARNING
+  celery: INFO
+
+sensitive_fields:
+  - password
+  - token
+  - secret
+  - embedding
+  - audio
+  - video

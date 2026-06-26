@@ -1,0 +1,25 @@
+# Neo4j Knowledge Graph Configuration
+
+graph:
+  database: neo4j
+  default_query_timeout_ms: 10000
+  max_subgraph_depth: 3
+  max_nodes_per_query: 500
+
+schema:
+  version: "1.0.0"
+  migrations_path: graphs/migrations
+
+indexes:
+  auto_create: true
+
+temporal:
+  default_window_days: 30
+  max_history_sessions: 12
+
+embeddings:
+  algorithms:
+    - node2vec
+    - fastrp
+    - graphsage
+  default: fastrp

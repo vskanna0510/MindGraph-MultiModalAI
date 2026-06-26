@@ -1,0 +1,46 @@
+# ML Training Configuration
+
+training:
+  seed: 42
+  batch_size: 16
+  num_workers: 4
+  max_epochs: 100
+  early_stopping_patience: 10
+  gradient_clip_val: 1.0
+
+fusion:
+  mode: cross_attn  # late | cross_attn | transformer | residual | dynamic
+  d_model: 512
+  num_heads: 8
+  num_layers: 2
+  modality_dropout: 0.3
+
+gnn:
+  architecture: graphsage  # gcn | gat | graphsage | tgcn
+  hidden_dim: 256
+  num_layers: 2
+
+temporal:
+  max_sessions: 12
+  causal_mask: true
+
+datasets:
+  primary: daic_woz
+  secondary: d_vlog
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - roc_auc
+    - mcc
+    - cohen_kappa
+
+checkpoints:
+  directory: ml_pipeline/weights
+  save_top_k: 3

@@ -1,0 +1,27 @@
+# GitHub Actions CI (skeleton)
+# Enable when repository is pushed to GitHub
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements-test.txt
+      - run: pytest backend/tests -v
+        env:
+          PYTHONPATH: backend
+          SECRET_KEY: ci-secret-key-min-16-chars
+          ENCRYPTION_KEY: ci-encryption-key-32bytes!!
+          JWT_SECRET: ci-jwt-secret-minimum-32-characters-long
+          DATABASE_URL: postgresql+asyncpg://mindgraph:mindgraph@localhost:5432/mindgraph

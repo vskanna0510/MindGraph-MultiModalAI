@@ -1,0 +1,35 @@
+# Flutter Client Configuration
+
+flutter:
+  app_name: MindGraph++
+  api_base_url: http://localhost:8000
+  api_version: v1
+  connect_timeout_ms: 30000
+  receive_timeout_ms: 60000
+
+offline:
+  enabled: true
+  sync_interval_minutes: 15
+  max_retry_attempts: 5
+
+on_device:
+  audio_extractor_enabled: true
+  visual_extractor_enabled: true
+  text_extractor_enabled: true
+  image_extractor_enabled: true
+
+design:
+  primary_color: "#5E9ED6"
+  secondary_color: "#4CAF9C"
+  font_family: Inter
+
+localization:
+  default_locale: en
+  supported_locales:
+    - en
+    - ta
+    - hi
+
+performance:
+  target_startup_ms: 2000
+  target_fps: 60

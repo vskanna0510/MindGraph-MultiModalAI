@@ -1,0 +1,173 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+venv/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.example
+
+ENV/
+env/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+.dmypy.json
+dmypy.json
+
+# Flutter / Dart
+flutter_app/.dart_tool/
+flutter_app/.packages
+flutter_app/.pub-cache/
+flutter_app/.pub/
+flutter_app/build/
+flutter_app/.flutter-plugins
+flutter_app/.flutter-plugins-dependencies
+flutter_app/.metadata
+flutter_app/**/doc/api/
+flutter_app/**/*.g.dart
+flutter_app/**/*.freezed.dart
+flutter_app/**/*.mocks.dart
+flutter_app/ios/Pods/
+flutter_app/ios/.symlinks/
+flutter_app/android/.gradle/
+flutter_app/android/app/debug/
+flutter_app/android/app/profile/
+flutter_app/android/app/release/
+flutter_app/android/local.properties
+flutter_app/android/key.properties
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Android Studio
+.gradle/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+
+# PyCharm
+.idea/
+
+# Docker
+docker-compose.override.yml
+
+# TensorFlow / PyTorch
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.pb
+checkpoints/
+runs/
+lightning_logs/
+mlruns/
+
+# Neo4j
+neo4j/
+data/databases/
+data/transactions/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets/
+credentials.json
+google-services.json
+GoogleService-Info.plist
+.editorconfig
+
+# Logs
+logs/
+*.log
+backend/logs/
+ml_pipeline/logs/
+
+# Generated models
+models/
+ml_pipeline/weights/
+ml_pipeline/outputs/
+*.safetensors
+
+# Datasets (large files)
+datasets/raw/
+datasets/processed/
+data/raw/
+data/processed/
+*.wav
+*.mp4
+*.avi
+*.mov
+*.zip
+*.tar
+*.tar.gz
+
+# Temporary
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# OS
+*.bak
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Benchmark / experiment artifacts
+experiments/**/artifacts/
+reports/generated/
+
+# Tools
+tools/.cache/
