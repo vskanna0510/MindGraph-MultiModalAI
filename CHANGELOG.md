@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Master Prompt 1 Part 4 (Research & MLOps)
+
+- `research/` directory tree with literature, ablations, benchmarks, reproducibility
+- ML configs: `configs/ml/{baseline,audio,video,text,fusion,evaluation}.yaml`
+- Experiment tracker with immutable `experiments/EXP###/` folders (EXP001–EXP004 seeded)
+- Reproducibility utilities (Python/NumPy/PyTorch/CUDA seeds)
+- Statistical analysis module (CI, paired t-test, Wilcoxon, McNemar)
+- Automated experiment reports and comparison tables
+- Dataset validation pipeline
+- Model registry structure (`models/`) with `model_card.template.md`
+- Scripts: `init_research_structure.py`, `run_experiment.py`, `compare_experiments.py`
+- Updated `.gitignore` for research artifacts (track configs, ignore checkpoints/plots)
+- Fixed: removed erroneous ignores for `.env.example` and `.editorconfig`
+
 ### Added — Master Prompt 1 Part 3 (DevOps)
 
 - Multi-environment Docker Compose: `dev`, `test`, `prod`, `monitoring`

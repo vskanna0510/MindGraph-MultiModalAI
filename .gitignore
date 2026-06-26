@@ -1,3 +1,6 @@
+# MindGraph++ .gitignore
+# Research artifacts: track configs/READMEs, ignore large binaries
+
 # Python
 __pycache__/
 *.py[cod]
@@ -22,12 +25,6 @@ wheels/
 MANIFEST
 .venv/
 venv/
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.example
-
 ENV/
 env/
 .mypy_cache/
@@ -87,19 +84,48 @@ captures/
 # Docker
 docker-compose.override.yml
 
-# TensorFlow / PyTorch
+# TensorFlow / PyTorch binaries (track configs, ignore weights)
 *.ckpt
 *.pt
 *.pth
 *.onnx
 *.tflite
 *.pb
+*.safetensors
 checkpoints/
 runs/
 lightning_logs/
 mlruns/
 
-# Neo4j
+# Model registry artifacts (keep README/model_card)
+models/**/checkpoint.pt
+models/**/checkpoint.pth
+models/**/exports/
+models/**/weights/
+models/best/**
+models/archive/**
+!models/**/README.md
+!models/**/model_card.md
+!models/**/training_config.yaml
+!models/**/metrics.json
+
+# Experiment artifacts (keep YAML/JSON/README, ignore binaries/plots)
+experiments/**/checkpoint.pt
+experiments/**/checkpoint.pth
+experiments/**/exports/
+experiments/**/*.png
+experiments/**/*.svg
+experiments/**/artifacts/
+!experiments/**/config.yaml
+!experiments/**/hyperparameters.yaml
+!experiments/**/metrics.json
+!experiments/**/manifest.json
+!experiments/**/seeds.json
+!experiments/**/README.md
+!experiments/**/training.log
+!experiments/**/*.csv
+
+# Neo4j local data
 neo4j/
 data/databases/
 data/transactions/
@@ -111,9 +137,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# Secrets
+# Secrets — NEVER commit
 .env
 .env.local
+.env.staging
+.env.production
 .env.*.local
 *.pem
 *.key
@@ -121,23 +149,27 @@ secrets/
 credentials.json
 google-services.json
 GoogleService-Info.plist
-.editorconfig
-
-# Logs
+.env.example
+# Logs and runtime
 logs/
 *.log
 backend/logs/
 ml_pipeline/logs/
+cache/
+!cache/.gitkeep
 
-# Generated models
-models/
-ml_pipeline/weights/
-ml_pipeline/outputs/
-*.safetensors
-
-# Datasets (large files)
-datasets/raw/
-datasets/processed/
+# Datasets (large files — never commit raw media)
+datasets/raw/**
+datasets/processed/**
+datasets/intermediate/**
+datasets/cache/**
+datasets/downloads/**
+!datasets/**/README.md
+!datasets/**/.gitkeep
+!datasets/metadata/**
+!datasets/splits/**/*.json
+!datasets/splits/**/*.yaml
+!datasets/validation/**/*.json
 data/raw/
 data/processed/
 *.wav
@@ -147,6 +179,30 @@ data/processed/
 *.zip
 *.tar
 *.tar.gz
+
+# ML pipeline outputs
+ml_pipeline/weights/**
+ml_pipeline/outputs/**
+!ml_pipeline/weights/README.md
+!ml_pipeline/outputs/README.md
+
+# Research generated outputs (keep structure)
+research/**/figures/**
+research/**/exports/**
+reports/generated/**
+reports/daily/**
+reports/weekly/**
+!reports/**/README.md
+!reports/experiment/*.md
+
+# Backups
+backups/**
+!backups/README.md
+
+# Uploads and exports
+uploads/**
+exports/**
+embeddings/**
 
 # Temporary
 tmp/
@@ -158,16 +214,14 @@ temp/
 .DS_Store
 Thumbs.db
 desktop.ini
-
-# OS
 *.bak
 
 # Jupyter
 .ipynb_checkpoints/
-
-# Benchmark / experiment artifacts
-experiments/**/artifacts/
-reports/generated/
+research/notebooks/.ipynb_checkpoints/
 
 # Tools
 tools/.cache/
+
+# Frozen lock (optional local)
+requirements-frozen.txt

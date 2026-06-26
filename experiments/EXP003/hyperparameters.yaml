@@ -1,0 +1,35 @@
+model:
+  architecture: visual_encoder
+  backbone: mediapipe_landmarks
+  hidden_dim: 256
+  frames_per_clip: 30
+  dropout: 0.2
+training:
+  seed: 42
+  epochs: 80
+  batch_size: 16
+  num_workers: 4
+  early_stopping_patience: 8
+dataset:
+  name: d_vlog
+  version: 1.0.0
+  modalities:
+  - video
+  frame_sampling_fps: 1
+optimization:
+  optimizer: adamw
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  scheduler: cosine
+evaluation:
+  metrics:
+  - accuracy
+  - precision
+  - recall
+  - f1
+  - roc_auc
+  threshold: 0.5
+deployment:
+  export_formats:
+  - pytorch
+  - onnx

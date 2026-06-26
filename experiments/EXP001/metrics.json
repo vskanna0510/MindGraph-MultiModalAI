@@ -1,0 +1,101 @@
+{
+  "experiment_id": "EXP001",
+  "timestamp": "2026-06-26T10:49:14.860324+00:00",
+  "git_commit": "6fc025d32ece42c747bfbf51cca95318f00bce20",
+  "dataset_version": "1.0.0",
+  "model_version": "MODEL_001_BASELINE",
+  "hyperparameters": {
+    "experiment": {
+      "id": "baseline",
+      "name": "multimodal_baseline",
+      "description": "Baseline experiment configuration for reproducible research",
+      "tags": [
+        "baseline",
+        "reproducibility"
+      ]
+    },
+    "model": {
+      "architecture": "multimodal_fusion",
+      "d_model": 512,
+      "num_heads": 8,
+      "num_layers": 2,
+      "dropout": 0.1,
+      "modality_dropout": 0.3
+    },
+    "training": {
+      "seed": 42,
+      "epochs": 100,
+      "batch_size": 16,
+      "num_workers": 4,
+      "early_stopping_patience": 10,
+      "gradient_clip_norm": 1.0,
+      "mixed_precision": true
+    },
+    "dataset": {
+      "name": "daic_woz",
+      "version": "1.0.0",
+      "train_split": 0.7,
+      "val_split": 0.15,
+      "test_split": 0.15,
+      "raw_path": "datasets/raw/daic_woz",
+      "processed_path": "datasets/processed/daic_woz"
+    },
+    "optimization": {
+      "optimizer": "adamw",
+      "learning_rate": 0.0001,
+      "weight_decay": 0.01,
+      "scheduler": "cosine",
+      "warmup_epochs": 5
+    },
+    "evaluation": {
+      "metrics": [
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "roc_auc",
+        "mcc",
+        "cohen_kappa"
+      ],
+      "threshold": 0.5
+    },
+    "deployment": {
+      "export_formats": [
+        "pytorch",
+        "onnx"
+      ],
+      "onnx_opset": 17,
+      "quantize": false
+    },
+    "reproducibility": {
+      "deterministic": true,
+      "benchmark": false
+    }
+  },
+  "seeds": {
+    "python": 42,
+    "numpy": 42,
+    "torch": 42,
+    "cuda": 42,
+    "dataloader": 42,
+    "hash": 42
+  },
+  "environment": {
+    "hardware": "AMD64 Family 25 Model 33 Stepping 0, AuthenticAMD",
+    "operating_system": "Windows 10",
+    "python_version": "3.14.2",
+    "cuda_version": null,
+    "pytorch_version": null
+  },
+  "execution_time_seconds": null,
+  "memory_usage_mb": null,
+  "gpu_usage_percent": null,
+  "cpu_usage_percent": null,
+  "training_duration_seconds": null,
+  "validation_metrics": {},
+  "test_metrics": {},
+  "checkpoint_path": null,
+  "inference_time_ms": null,
+  "export_status": {},
+  "config_path": "configs\\ml\\baseline.yaml"
+}

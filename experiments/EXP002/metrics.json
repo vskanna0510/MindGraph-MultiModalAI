@@ -1,0 +1,94 @@
+{
+  "experiment_id": "EXP002",
+  "timestamp": "2026-06-26T10:49:15.238451+00:00",
+  "git_commit": "6fc025d32ece42c747bfbf51cca95318f00bce20",
+  "dataset_version": "1.0.0",
+  "model_version": "MODEL_002_AUDIO",
+  "hyperparameters": {
+    "experiment": {
+      "id": "audio_only",
+      "name": "audio_modality_baseline",
+      "description": "Audio-only depression screening experiment",
+      "tags": [
+        "audio",
+        "ablation"
+      ]
+    },
+    "model": {
+      "architecture": "audio_encoder",
+      "encoder": "wav2vec2-base",
+      "hidden_dim": 256,
+      "dropout": 0.2
+    },
+    "training": {
+      "seed": 42,
+      "epochs": 80,
+      "batch_size": 32,
+      "num_workers": 4,
+      "early_stopping_patience": 8,
+      "gradient_clip_norm": 1.0
+    },
+    "dataset": {
+      "name": "daic_woz",
+      "version": "1.0.0",
+      "modalities": [
+        "audio"
+      ],
+      "sample_rate": 16000,
+      "max_duration_seconds": 300
+    },
+    "optimization": {
+      "optimizer": "adamw",
+      "learning_rate": 5e-05,
+      "weight_decay": 0.01,
+      "scheduler": "reduce_on_plateau"
+    },
+    "evaluation": {
+      "metrics": [
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "roc_auc"
+      ],
+      "threshold": 0.5
+    },
+    "deployment": {
+      "export_formats": [
+        "pytorch",
+        "onnx",
+        "tflite"
+      ],
+      "onnx_opset": 17
+    },
+    "reproducibility": {
+      "deterministic": true
+    }
+  },
+  "seeds": {
+    "python": 42,
+    "numpy": 42,
+    "torch": 42,
+    "cuda": 42,
+    "dataloader": 42,
+    "hash": 42
+  },
+  "environment": {
+    "hardware": "AMD64 Family 25 Model 33 Stepping 0, AuthenticAMD",
+    "operating_system": "Windows 10",
+    "python_version": "3.14.2",
+    "cuda_version": null,
+    "pytorch_version": null
+  },
+  "execution_time_seconds": null,
+  "memory_usage_mb": null,
+  "gpu_usage_percent": null,
+  "cpu_usage_percent": null,
+  "training_duration_seconds": null,
+  "validation_metrics": {},
+  "test_metrics": {},
+  "checkpoint_path": null,
+  "inference_time_ms": null,
+  "export_status": {},
+  "config_path": "configs\\ml\\audio.yaml"
+}

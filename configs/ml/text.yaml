@@ -1,0 +1,42 @@
+# Text modality experiment configuration
+
+experiment:
+  id: text_only
+  name: text_modality_baseline
+  description: Text-only multilingual depression screening experiment
+  tags: [text, multilingual, ablation]
+
+model:
+  architecture: text_encoder
+  encoder: xlm-roberta-base
+  max_sequence_length: 512
+  hidden_dim: 256
+  languages: [en, ta, hi, tanglish, roman_ta]
+
+training:
+  seed: 42
+  epochs: 60
+  batch_size: 24
+  num_workers: 4
+  early_stopping_patience: 6
+
+dataset:
+  name: daic_woz
+  version: "1.0.0"
+  modalities: [text]
+
+optimization:
+  optimizer: adamw
+  learning_rate: 0.00002
+  weight_decay: 0.01
+  scheduler: linear_warmup
+
+evaluation:
+  metrics: [accuracy, precision, recall, f1, roc_auc, mcc]
+  threshold: 0.5
+
+deployment:
+  export_formats: [pytorch, onnx]
+
+reproducibility:
+  deterministic: true

@@ -108,8 +108,8 @@ packages = ["app"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-testpaths = ["backend/tests", "tests"]
-pythonpath = ["backend"]
+testpaths = ["backend/tests", "ml_pipeline/tests", "tests"]
+pythonpath = ["backend", "."]
 
 [tool.bandit]
 exclude_dirs = ["tests", "backend/tests", ".venv"]

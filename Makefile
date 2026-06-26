@@ -101,3 +101,12 @@ benchmark:
 
 deploy:
 	@echo "See deployment/ for production manifests"
+
+research-init:
+	$(PYTHON_BIN) scripts/research/init_research_structure.py
+
+experiment:
+	$(PYTHON_BIN) scripts/research/run_experiment.py --config configs/ml/baseline.yaml --init-only
+
+compare:
+	$(PYTHON_BIN) scripts/research/compare_experiments.py

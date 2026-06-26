@@ -1,0 +1,55 @@
+experiment:
+  id: baseline
+  name: multimodal_baseline
+  description: Baseline experiment configuration for reproducible research
+  tags:
+  - baseline
+  - reproducibility
+model:
+  architecture: multimodal_fusion
+  d_model: 512
+  num_heads: 8
+  num_layers: 2
+  dropout: 0.1
+  modality_dropout: 0.3
+training:
+  seed: 42
+  epochs: 100
+  batch_size: 16
+  num_workers: 4
+  early_stopping_patience: 10
+  gradient_clip_norm: 1.0
+  mixed_precision: true
+dataset:
+  name: daic_woz
+  version: 1.0.0
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  raw_path: datasets/raw/daic_woz
+  processed_path: datasets/processed/daic_woz
+optimization:
+  optimizer: adamw
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  scheduler: cosine
+  warmup_epochs: 5
+evaluation:
+  metrics:
+  - accuracy
+  - precision
+  - recall
+  - f1
+  - roc_auc
+  - mcc
+  - cohen_kappa
+  threshold: 0.5
+deployment:
+  export_formats:
+  - pytorch
+  - onnx
+  onnx_opset: 17
+  quantize: false
+reproducibility:
+  deterministic: true
+  benchmark: false

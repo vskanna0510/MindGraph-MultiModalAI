@@ -1,0 +1,92 @@
+{
+  "experiment_id": "EXP003",
+  "timestamp": "2026-06-26T10:49:15.592406+00:00",
+  "git_commit": "6fc025d32ece42c747bfbf51cca95318f00bce20",
+  "dataset_version": "1.0.0",
+  "model_version": "MODEL_003_VISUAL",
+  "hyperparameters": {
+    "experiment": {
+      "id": "video_only",
+      "name": "visual_modality_baseline",
+      "description": "Visual-only depression screening experiment",
+      "tags": [
+        "video",
+        "visual",
+        "ablation"
+      ]
+    },
+    "model": {
+      "architecture": "visual_encoder",
+      "backbone": "mediapipe_landmarks",
+      "hidden_dim": 256,
+      "frames_per_clip": 30,
+      "dropout": 0.2
+    },
+    "training": {
+      "seed": 42,
+      "epochs": 80,
+      "batch_size": 16,
+      "num_workers": 4,
+      "early_stopping_patience": 8
+    },
+    "dataset": {
+      "name": "d_vlog",
+      "version": "1.0.0",
+      "modalities": [
+        "video"
+      ],
+      "frame_sampling_fps": 1
+    },
+    "optimization": {
+      "optimizer": "adamw",
+      "learning_rate": 0.0001,
+      "weight_decay": 0.01,
+      "scheduler": "cosine"
+    },
+    "evaluation": {
+      "metrics": [
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "roc_auc"
+      ],
+      "threshold": 0.5
+    },
+    "deployment": {
+      "export_formats": [
+        "pytorch",
+        "onnx"
+      ]
+    },
+    "reproducibility": {
+      "deterministic": true
+    }
+  },
+  "seeds": {
+    "python": 42,
+    "numpy": 42,
+    "torch": 42,
+    "cuda": 42,
+    "dataloader": 42,
+    "hash": 42
+  },
+  "environment": {
+    "hardware": "AMD64 Family 25 Model 33 Stepping 0, AuthenticAMD",
+    "operating_system": "Windows 10",
+    "python_version": "3.14.2",
+    "cuda_version": null,
+    "pytorch_version": null
+  },
+  "execution_time_seconds": null,
+  "memory_usage_mb": null,
+  "gpu_usage_percent": null,
+  "cpu_usage_percent": null,
+  "training_duration_seconds": null,
+  "validation_metrics": {},
+  "test_metrics": {},
+  "checkpoint_path": null,
+  "inference_time_ms": null,
+  "export_status": {},
+  "config_path": "configs\\ml\\video.yaml"
+}
