@@ -1,0 +1,21 @@
+{
+  "@@locale": "hi",
+  "appTitle": "MindGraph++",
+  "navHome": "होम",
+  "navRecord": "रिकॉर्ड",
+  "navHistory": "इतिहास",
+  "navInsights": "अंतर्दृष्टि",
+  "navProfile": "प्रोफ़ाइल",
+  "greetingMorning": "सुप्रभात",
+  "greetingAfternoon": "नमस्कार",
+  "greetingEvening": "शुभ संध्या",
+  "feelingPrompt": "आज आप कैसा महसूस कर रहे हैं?",
+  "wellnessOverview": "कल्याण अवलोकन",
+  "notDiagnosis": "यह केवल सहायक मार्गदर्शन है — नैदानिक निदान नहीं।",
+  "emergencySupport": "तत्काल सहायता चाहिए? आपातकालीन संसाधन हमेशा उपलब्ध हैं।",
+  "noCheckIns": "अभी तक कोई जाँच नहीं",
+  "startFirstCheckIn": "रिकॉर्ड टैब से अपनी पहली जाँच शुरू करें।",
+  "newCheckIn": "नई जाँच",
+  "insightsPlaceholder": "जाँच के बाद साप्ताहिक रुझान यहाँ दिखाई देंगे।",
+  "graphPlaceholder": "पहली भविष्यवाणी के बाद ज्ञान ग्राफ उपलब्ध होगा।"
+}

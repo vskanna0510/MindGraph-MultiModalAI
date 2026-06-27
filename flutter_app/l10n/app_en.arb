@@ -1,0 +1,21 @@
+{
+  "@@locale": "en",
+  "appTitle": "MindGraph++",
+  "navHome": "Home",
+  "navRecord": "Record",
+  "navHistory": "History",
+  "navInsights": "Insights",
+  "navProfile": "Profile",
+  "greetingMorning": "Good morning",
+  "greetingAfternoon": "Good afternoon",
+  "greetingEvening": "Good evening",
+  "feelingPrompt": "How are you feeling today?",
+  "wellnessOverview": "Wellness overview",
+  "notDiagnosis": "This is supportive guidance only — not a clinical diagnosis.",
+  "emergencySupport": "Need immediate support? Emergency resources are always available.",
+  "noCheckIns": "No check-ins yet",
+  "startFirstCheckIn": "Start your first wellness check-in from the Record tab.",
+  "newCheckIn": "New check-in",
+  "insightsPlaceholder": "Weekly mood and risk trends will appear here after check-ins.",
+  "graphPlaceholder": "Knowledge graph visualization available after first prediction."
+}

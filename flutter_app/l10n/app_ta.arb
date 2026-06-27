@@ -1,0 +1,21 @@
+{
+  "@@locale": "ta",
+  "appTitle": "MindGraph++",
+  "navHome": "முகப்பு",
+  "navRecord": "பதிவு",
+  "navHistory": "வரலாறு",
+  "navInsights": "நுண்ணறிவு",
+  "navProfile": "சுயவிவரம்",
+  "greetingMorning": "காலை வணக்கம்",
+  "greetingAfternoon": "மதிய வணக்கம்",
+  "greetingEvening": "மாலை வணக்கம்",
+  "feelingPrompt": "இன்று நீங்கள் எப்படி உணர்கிறீர்கள்?",
+  "wellnessOverview": "நல்வாழ்வு கண்ணோட்டம்",
+  "notDiagnosis": "இது ஆதரவான வழிகாட்டுதல் மட்டுமே — மருத்துவ நிர்ணயம் அல்ல.",
+  "emergencySupport": "உடனடி உதவி தேவையா? அவசர வளங்கள் எப்போதும் கிடைக்கின்றன.",
+  "noCheckIns": "இன்னும் பதிவுகள் இல்லை",
+  "startFirstCheckIn": "பதிவு தாவலில் இருந்து உங்கள் முதல் சரிபார்ப்பைத் தொடங்குங்கள்.",
+  "newCheckIn": "புதிய சரிபார்ப்பு",
+  "insightsPlaceholder": "சரிபார்ப்புகளுக்குப் பிறகு வாராந்திர போக்குகள் இங்கே தோன்றும்.",
+  "graphPlaceholder": "முதல் கணிப்புக்குப் பிறகு அறிவு வரைபடம் கிடைக்கும்."
+}

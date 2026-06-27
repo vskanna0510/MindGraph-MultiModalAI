@@ -46,6 +46,9 @@ backend:
 flutter:
 	cd flutter_app && flutter pub get && flutter run
 
+flutter-test:
+	cd flutter_app && flutter pub get && flutter gen-l10n && flutter test --coverage
+
 train:
 	$(PYTHON_BIN) -m ml_pipeline.training.train --config configs/training_pipeline.yaml
 
