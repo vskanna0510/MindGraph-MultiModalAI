@@ -14,7 +14,7 @@ flutter run
 
 API base URL: `--dart-define=API_BASE_URL=http://localhost:8000`
 
-## Architecture (MP5 Part 1)
+## Architecture (MP5 Parts 1–7)
 
 ```
 lib/
@@ -26,15 +26,30 @@ lib/
 │   ├── routing/         # GoRouter exports
 │   ├── services/        # Config + secure storage
 │   └── constants/       # Env, breakpoints
-├── features/            # Feature-owned screens (UI only in Part 1)
+├── features/
+│   ├── record/          # Multimodal check-in (MP5 Part 5)
+│   ├── results/         # AI processing + explainable results (MP5 Part 6)
+│   ├── graph/           # Interactive knowledge graph (MP5 Part 7)
+│   ├── settings/        # Settings, export, offline (MP5 Part 7)
+│   ├── history/         # Session history (MP5 Part 7)
+│   ├── home/            # Personalized dashboard (MP5 Part 4)
+│   ├── onboarding/      # 11-step first-launch flow (MP5 Part 3)
+│   ├── consent/         # Granular consent management
+│   ├── authentication/  # Email, social, guest auth (stub)
+│   └── …                # home, record, history, insights, profile
 └── shared/widgets/      # Legacy re-exports
 ```
 
-## Startup flow
+## Startup flow (MP5 Part 3)
 
-`splash` → `security` → `permissions` → `language` → `consent` → `auth` → main shell (`/home`)
+```
+splash → security → language → welcome → overview → privacy-intro
+→ consent → permissions → auth → profile-setup → tutorial → home
+```
 
-State persisted via `flutter_secure_storage`. Reset from Profile → "Reset onboarding".
+State persisted via `flutter_secure_storage` (JWT, consent, profile, progress). Reset from Profile → "Reset onboarding" clears all onboarding keys.
+
+See [architecture.md](architecture.md) for the full onboarding spec.
 
 ## Design system
 
@@ -50,10 +65,16 @@ See [architecture.md](architecture.md) for token reference and component catalog
 
 ```bash
 flutter test
+flutter test test/history/
+flutter test test/insights/
+flutter test test/graph/
+flutter test test/settings/
+flutter test test/results/
+flutter test test/record/
 flutter test --coverage
 ```
 
-Target: ≥90% coverage on `core/design_system/` and `core/theme/`.
+Target: ≥90% coverage on `core/design_system/`, `core/theme/`, `test/onboarding/`, and `test/results/`.
 
 ## Localization
 

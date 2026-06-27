@@ -1,95 +1,169 @@
-# MindGraph++ Flutter Architecture (MP5 Part 1)
+# MindGraph++ Design System, Onboarding & Dashboard
 
-## Healthcare Design Language (HDL v3)
+Enterprise UI foundation for MindGraph++ (MP5 Parts 2–4).
 
-### Colors (light)
+## Principles
 
-| Token | Hex |
-|-------|-----|
-| Primary | `#5E9ED6` |
-| Primary Dark | `#4A89C5` |
-| Secondary | `#4CAF9C` |
-| Accent | `#7C8CF8` |
-| Support | `#A78BFA` |
-| Success | `#34D399` |
-| Warning | `#FBBF24` |
-| Danger | `#EF4444` |
-| Background | `#F8FAFC` |
+1. **Never hardcode** colors, spacing, or typography in widgets
+2. Use `context.colors` for semantic colors
+3. Use `AppSpacingTokens`, `AppRadiusTokens`, etc. for layout
+4. Import from `core/design_system/design_system.dart`
+5. **All user-facing strings** in ARB files (`l10n/`)
 
-### Colors (dark)
+## Token architecture
 
-| Token | Hex |
-|-------|-----|
-| Background | `#09090B` |
-| Surface | `#18181B` |
-| Card | `#202024` |
-| Primary | `#7CB5F0` |
-| Secondary | `#5AD4B8` |
-| Text | `#FAFAFA` |
+See [`tokens/README.md`](lib/core/design_system/tokens/README.md).
 
-### Typography scale
+## Onboarding flow (MP5 Part 3)
 
-Display XL 48 · Display L 40 · Headline 32 · Title 24 · Subtitle 18 · Body 16 · Caption 14 · Label 12
+```
+/splash → /security → /language → /welcome → /overview → /privacy-intro
+→ /consent → /permissions → /auth → /profile-setup → /tutorial → /home
+```
 
-Font: **Inter** with fallbacks SF Pro, Roboto, Noto Sans.
+State persisted in secure storage. Reset from Profile clears all onboarding keys.
 
-### Spacing (8dp grid)
+## Home dashboard (MP5 Part 4)
 
-4 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48 · 64 · 80
+Single-scroll personalized home at `/home`:
 
-### Radius
+```
+App Bar (greeting, date, privacy, notifications, avatar)
+→ Greeting + streak
+→ Today's Mood Card
+→ Risk Overview + AnimatedRiskGauge
+→ Trend Summary (7d / 30d / 90d)
+→ Quick Actions grid
+→ Recent Check-ins (horizontal)
+→ AI Insight
+→ Recommendation
+→ Daily Motivation
+```
 
-8 · 16 · 24 · 32 · pill 999
+### Providers
+
+| Provider | Purpose |
+|----------|---------|
+| `dashboardProvider` | Aggregated dashboard state |
+| `riskProvider` | Current risk overview |
+| `moodProvider` | Today's mood snapshot |
+| `recommendationProvider` | Daily recommendation |
+| `recentSessionsProvider` | Recent check-in sessions |
+| `offlineCacheProvider` | Cached dashboard for offline |
+
+Data loads from secure storage cache; Neo4j/backend integration is stubbed. Offline banner when connectivity is unavailable.
+
+## Multimodal recording (MP5 Part 5)
+
+Flagship check-in at `/record`:
+
+```
+Mode Selection → Privacy Reminder → Preparation → Live Recording → AI Processing → Result
+```
+
+### Modes
+
+Voice · Video · Image · Text · Combined (video + audio + journal)
+
+### Providers
+
+| Provider | Purpose |
+|----------|---------|
+| `recordingProvider` | Flow state machine + session lifecycle |
+| `permissionProvider` | Camera / mic / storage status |
+| `cameraProvider` / `microphoneProvider` | Permission-derived booleans |
+| `journalProvider` | Auto-saved journal draft |
+| `processingProvider` | Upload → features → inference → graph progress |
+
+Temporary session metadata stored encrypted; media cleanup after successful processing unless user retains.
+
+## AI processing & results (MP5 Part 6)
+
+After recording completes:
+
+```
+8-step pipeline → SessionAnalysisResult → /session/:id/result
+```
+
+### Processing screen
+
+Animated particles, 8-step checklist, gradient progress ring, ETA, privacy bar (device/edge/cloud, encrypted, consent).
+
+### Results screen
+
+Explainable, non-diagnostic presentation:
+
+- Risk gauge with supportive narrative + confidence interval
+- Confidence card (model/graph version, processing mode)
+- Modality + feature contributions (SHAP-style summary)
+- Temporal context + graph preview
+- Three AI insights, recommendations, conditional support resources
+- Export/share sheet (PDF, JSON, CSV, encrypted — consent-gated)
+
+### Providers
+
+| Provider | Purpose |
+|----------|---------|
+| `pipelineProvider` | 8-step AI processing progress |
+| `resultProvider` | Session analysis payload |
+| `insightProvider` | AI insight list |
+| `recommendationProvider` | Daily recommendations |
+| `exportProvider` | Consent-gated export |
 
 ## Component catalog
+| Category | Key widgets |
+|----------|-------------|
+| Layout | `AppScaffold`, `AppHeader`, `PermissionCard`, `PrivacyBanner`, `AppIllustration` |
+| Surfaces | `GlassSurface`, `PrimaryCard`, `SecondaryCard` |
+| Metrics | `MetricCard`, `RiskCard`, `TrendCard`, `AnalyticsCard` |
+| Buttons | `PrimaryButton`, `FilledTonalButton`, `AsyncButton`, `GlassButton` |
+| Inputs | `AppTextField`, `AppSearchField`, `JournalField`, `OtpField` |
+| Modals | `AppConfirmDialog`, `PrivacyDialog`, `RecordingDialog` |
+| Loading | `SkeletonCard`, `ShimmerLoader`, `ProgressRing`, `WaveAnimation` |
+| Feedback | `StatusBadge`, `PrivacyBadge`, `InlineAlert`, `OnboardingEmptyState` |
+| Charts | `RiskGauge`, `CircularGauge`, `TrendChart`, `KnowledgeGraphPreview` |
+| Motion | `PulseAnimation`, `AppMotionPresets`, shared-axis page transitions |
+| Haptics | `AppHaptics` |
 
-| Widget | Purpose |
-|--------|---------|
-| `PrimaryButton` / `SecondaryButton` / `DangerButton` / `AppOutlinedButton` | Actions |
-| `SurfaceCard` / `GradientCard` / `GlassCard` | Containers |
-| `MoodCard` / `InsightCard` / `StatisticCard` | Home & insights |
-| `RiskGauge` / `GraphCard` | Analytics |
-| `RecommendationCard` / `SessionCard` / `TimelineCard` | History & guidance |
-| `PrivacyBanner` / `ConsentTile` / `LanguageSelector` | Trust & settings |
-| `FloatingRecordButton` / `AudioWaveCard` / `VideoPreviewCard` | Recording |
-| `AdaptiveScaffold` | Responsive navigation |
+## Accessibility
 
-## Riverpod providers
+- Semantic labels on all onboarding controls
+- VoiceOver / TalkBack compatible progress indicator
+- Reduced motion respected in page transitions
+- 48dp touch targets on primary actions
 
-| Provider | Type | Role |
-|----------|------|------|
-| `startupProvider` | `Notifier<StartupState>` | Onboarding progress |
-| `themeModeProvider` | `Notifier<ThemeMode>` | Light/dark/system |
-| `localeProvider` | `Notifier<Locale>` | en/ta/hi |
-| `connectivityProvider` | `StreamProvider` | Online/offline |
-| `appRouterProvider` | `Provider<GoRouter>` | Navigation |
+## Tests
 
-## Routes
+```bash
+flutter test test/design_system/
+flutter test test/history/
+flutter test test/insights/
+flutter test test/graph/
+flutter test test/settings/
+flutter test test/home/
+flutter test test/onboarding/
+flutter test test/routing/
+flutter test --coverage
+```
 
-| Path | Screen |
-|------|--------|
-| `/splash` | Branded splash |
-| `/security` | Biometric opt-in |
-| `/permissions` | Mic/camera/speech |
-| `/language` | Locale picker |
-| `/consent` | Privacy consent |
-| `/auth` | Sign-in stub |
-| `/home` … `/profile` | Main shell tabs |
-| `/offline` `/error` | Utility |
+Target: ≥90% coverage on design system, onboarding, home, routing, and Part 7 features (history, insights, graph, settings).
 
-## Accessibility checklist
+## History, insights, graph, profile & settings (MP5 Part 7)
 
-- [x] 48dp minimum touch targets on buttons
-- [x] Semantic labels on interactive widgets
-- [x] Text scale clamped to 2.0
-- [x] Reduced motion support
-- [x] High contrast theme
-- [x] Color + icon + label for risk/mood (not color alone)
+| Feature | Route | Key providers |
+|---------|-------|---------------|
+| History | `/history` | `historyProvider`, `filteredHistoryProvider` |
+| Session detail | `/session/:id` | `historyProvider` |
+| Insights | `/insights` | `insightsProvider` |
+| Knowledge graph | `/graph` | `graphProvider`, `graphTimelineProvider` |
+| Profile | `/profile` | `profileSetupProvider`, `consentProvider` |
+| Settings | `/settings` | `settingsProvider`, `notificationProvider` |
 
-## Deferred to MP5 Part 2
+History: search, filters, timeline/calendar, session cards, analytics summary.
+Insights: trend charts, behavioural/emotion/language analytics, forecast (non-certain).
+Graph: interactive pan/zoom canvas, timeline replay, node details.
+Profile/Settings: privacy, security, notifications, export & offline centers.
 
-- Dio API client + graph/twin repositories
-- Backend JWT authentication
-- Camera/mic recording pipeline
-- On-device ML inference
-- Hive offline sync
+## Localization
+
+Supported: English (`en`), Tamil (`ta`), Hindi (`hi`). ARB files in `l10n/`.
